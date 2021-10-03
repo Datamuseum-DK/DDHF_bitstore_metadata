@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
-#
-# Copyright (c) 2021 Poul-Henning Kamp <phk@phk.freebsd.dk>
+# Copyright (c) 2012-2021 Poul-Henning Kamp <phk@phk.freebsd.dk>
 # All rights reserved.
+#
+# SPDX-License-Identifier: BSD-2-Clause
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -23,29 +23,3 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-
-'''
-   Datamuseum.dk BitStore Metadata Files
-'''
-
-from setuptools import setup
-
-def readme():
-    ''' emit README '''
-    with open('README.md') as file:
-        return file.read()
-
-setup(
-    name='ddhf_bitstore_metadata',
-    version='1.0',
-    description='Datamuseum.dk BitStore Metadata Files',
-    long_description=readme(),
-    classifiers=[],
-    keywords='datamuseum.dk bitstore metadata',
-    url='https://datamuseum.dk/wiki/Bits:Metadata',
-    author='Poul-Henning Kamp',
-    author_email='phk@FreeBSD.org',
-    license='BSD',
-    packages=['ddhf_bitstore_metadata'],
-    zip_safe=False
-)
