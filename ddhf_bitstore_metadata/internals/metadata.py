@@ -49,7 +49,10 @@ class MetadataBase():
 
         mds = syntax.MetadataSyntax(text)
         for stanza in mds:
-            sect = self.sections.get(stanza.section)
+            full_sect = stanza.section
+            if stanza.index is not None:
+                full_sect += "[%d]" % stanza.index
+            sect = self.sections.get(full_sect)
             if sect is None:
                 try:
                     sect = section.get_section(self, stanza.section, stanza.index)
@@ -58,7 +61,7 @@ class MetadataBase():
                 except section.SectionNotFound:
                     stanza.stanza_line.complain("Unknown section")
                 assert sect is not None
-                self.sections[stanza.section] = sect
+                self.sections[full_sect] = sect
             sect.add_field(stanza)
 
     def __getattr__(self, key):
@@ -69,13 +72,15 @@ class MetadataBase():
 
     def acceptable_formats(self, sect, fmts):
         ''' Restrict acceptable formats '''
+        self.valid_formats_sections.add(sect)
+        if not fmts:
+            return
         for i in fmts:
             assert i in FileFormats
         if not self.valid_formats:
             self.valid_formats = set(fmts)
         else:
             self.valid_formats &= set(fmts)
-        self.valid_formats_sections.add(sect)
 
     def validate(self, strict=False):
         ''' Validate metadata '''
@@ -85,9 +90,7 @@ class MetadataBase():
         ):
             if mandatory not in self.sections:
                 raise exceptions.MetadataSemanticError("No %s section" % mandatory)
-        if not self.valid_formats_sections:
-            raise exceptions.MetadataSemanticError("No content section(s)")
-        if not self.valid_formats:
+        if not self.valid_formats and self.valid_formats_sections:
             raise exceptions.MetadataSemanticError(
                 "Incompatible content sections (%s)" % str(self.valid_formats_sections)
             )
@@ -99,5 +102,9 @@ class Metadata(MetadataBase):
     Mostly a convenience wrapper
     '''
 
-    def __init__(self, filename=None):
-        super().__init__(open(filename).read())
+    def __init__(self, filename=None, text=None):
+        if filename is not None:
+            assert text is None
+            super().__init__(open(filename).read())
+        elif text is not None:
+            super().__init__(text)

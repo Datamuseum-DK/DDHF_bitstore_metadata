@@ -112,5 +112,4 @@ class Section():
     def validate(self, strict=False):
         ''' Validate this section '''
         for fld in self.fields.values():
-            print("FLDV", fld)
             fld.validate_field(strict)

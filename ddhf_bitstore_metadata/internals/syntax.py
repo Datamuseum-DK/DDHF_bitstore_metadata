@@ -109,19 +109,6 @@ class MetadataStanza():
         if len(text) == 0:
             self.complain("Missing section name")
 
-        if '[' in text or ']' in text:
-            self.complain("Index '[…]' must come after field name")
-
-        if not text.isascii() or not text.isidentifier():
-            self.complain("Illegal section name")
-
-        self.section = text
-
-    def validate_field_and_index(self, text):
-        ''' Validate the field name and optional index'''
-
-        self.name = self.section + '.' + text
-
         if text[-1] == ']':
             i = text[:-1].split('[')
             if len(i) < 2:
@@ -142,9 +129,22 @@ class MetadataStanza():
         elif '[' in text:
             self.complain("Missing ']' character")
         elif ']' in text:
-            self.complain("Index must come after field name")
+            self.complain("Index must come after section name")
         else:
             self.index = None
+
+        if not text.isascii() or not text.isidentifier():
+            self.complain("Illegal section name")
+
+        self.section = text
+
+    def validate_field_and_index(self, text):
+        ''' Validate the field name and optional index'''
+
+        self.name = self.section + '.' + text
+
+        if '[' in text or ']' in text:
+            self.complain("Index '[…]' must come after section name")
 
         if not text.isascii() or not text.isidentifier():
             self.complain("Illegal field name")
