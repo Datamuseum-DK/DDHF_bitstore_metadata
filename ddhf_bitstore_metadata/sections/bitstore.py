@@ -83,17 +83,27 @@ class Filename(Field):
     ''' Must be sensible '''
 
     def validate(self):
-        if not re.match('^[a-zæøåA-ZÆØÅ][a-zæøåA-ZÆØÅ0-9_.-]*$', self.val):
+        if not re.match('^[a-zæøåA-ZÆØÅ0-9_][a-zæøåA-ZÆØÅ0-9_.-]*$', self.val):
             self.complain('Bad filename (illegal characters)')
 
 class Ident(Field):
-    ''' Must be 8 digits '''
+    ''' Must be 8 digits with optional generation number '''
 
     def validate(self):
-        if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
+        if not self.val.isascii() or len(self.val.split()) != 1:
             self.complain('Not a valid identifier')
-        if self.val[0] != '3':
+        flds = self.val.split(':')
+        if len(flds) > 2:
+            self.complain('Not a valid identifier')
+        if not flds[0].isdigit() or len(flds[0]) != 8:
+            self.complain('Not a valid identifier')
+        if flds[0][0] != '3':
             self.complain('Not a valid bitstore identifier')
+        if len(flds) == 2:
+            try:
+                int(flds[1])
+            except ValueError:
+                self.complain('Not a valid bitstore identifier(generation)')
 
 class Digest(Field):
     ''' sha256:[0-9a-f]{64} '''
