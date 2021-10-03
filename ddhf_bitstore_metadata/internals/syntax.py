@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2012-2014 Poul-Henning Kamp <phk@phk.freebsd.dk>
+# Copyright (c) 2012-2021 Poul-Henning Kamp <phk@phk.freebsd.dk>
 # All rights reserved.
+#
+# SPDX-License-Identifier: BSD-2-Clause
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
