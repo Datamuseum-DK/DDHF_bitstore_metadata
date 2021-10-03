@@ -29,7 +29,7 @@
    ---------------------------------------------
 '''
 
-from ddhf_metadata.internals.exceptions import MetadataSyntaxError
+from ddhf_bitstore_metadata.internals.exceptions import MetadataSyntaxError
 
 class MetadataLine():
     ''' A line of metadata, knows it's own line number '''
@@ -56,7 +56,7 @@ class MetadataLine():
 
     def complain(self, why):
         ''' raise a syntax error on this line '''
-        raise MetadataSyntaxError("Line %d: " % self.lineno + why)
+        raise MetadataSyntaxError(why, line=self.text, where="line %d" % self.lineno)
 
 class MetadataStanza():
     ''' A stanza of metadata '''
@@ -82,6 +82,24 @@ class MetadataStanza():
             self.complain("Empty stanza")
 
         self.lines = lines[1:]
+
+    def __len__(self):
+        return len(self.lines)
+
+    def __iter__(self):
+        yield from self.lines
+
+    def __repr__(self):
+        return "<MetadataStanza %s>" % self.name
+
+    def __getitem__(self, idx):
+        return self.lines[idx]
+
+    def iterlines(self):
+        ''' Iterate the lines withtout the leading TAB '''
+        for i in self.lines:
+            assert i.text[0] == '\t'
+            yield i, i.text[1:]
 
     def validate_section(self, text):
         ''' Validate the section name '''
@@ -135,9 +153,6 @@ class MetadataStanza():
         ''' raise a syntax error on this stanza '''
         self.stanza_line.complain(why)
 
-    def __repr__(self):
-        return "<MetadataStanza %s>" % self.name
-
 class MetadataSyntax():
     ''' Check syntax and split metadata into stanzas '''
 
@@ -147,6 +162,9 @@ class MetadataSyntax():
         self.stanzas = []
         for stanza in self.lexer():
             self.stanzas.append(MetadataStanza(stanza))
+
+    def __iter__(self):
+        yield from self.stanzas
 
     def get_line(self):
         ''' Get the next line '''

@@ -24,25 +24,24 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-
 '''
-    WARC sections
-    =============
+   Common exceptions
+   -----------------
 '''
 
-from ddhf_metadata.internals.fields import Field
-from ddhf_metadata.internals.section import Section
 
-class WARC(Section):
-    '''
-        WARC sections
-    '''
+class MetadataSyntaxError(Exception):
+    ''' Syntax error in metadata '''
 
-    def build(self):
-        self += Field("WARC_Record_ID", mandatory="strict")
-        self += Field("Content_Length", mandatory="strict")
-        self += Field("Content_Type", mandatory="strict")
-        self += Field("WARC_Block_Digest", mandatory="strict")
-        self += Field("WARC_Date", mandatory="strict")
-        self += Field("WARC_Refers_To", mandatory="strict")
-        self += Field("WARC_Type", mandatory="strict")
+    def __init__(self, text, line="", where=""):
+        super().__init__(text)
+        self.line = line
+        self.where = where
+
+class MetadataSemanticError(Exception):
+    ''' ... '''
+
+    def __init__(self, text, line="", where=""):
+        super().__init__(text)
+        self.line = line
+        self.where = where

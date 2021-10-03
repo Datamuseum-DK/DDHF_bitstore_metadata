@@ -26,20 +26,23 @@
 
 
 '''
-    Presentation sections
-    =====================
+    WARC sections
+    =============
 '''
 
-from ddhf_metadata.internals.fields import Field
-from ddhf_metadata.internals.section import Section
+from ddhf_bitstore_metadata.internals.fields import Field
+from ddhf_bitstore_metadata.internals.section import Section
 
-class Presentation(Section):
-    ''' Presentation sections '''
+class WARC(Section):
+    '''
+        WARC sections
+    '''
 
     def build(self):
-        self.indexed = True
-        self += Field("Speaker", mandatory=True)
-        self += Field("Title")
-        self += Field("Subtitle", single=False)
-        self += Field("Bio", single=False)
-        self += Field("Abstract", single=False)
+        self += Field("WARC_Record_ID", mandatory="strict")
+        self += Field("Content_Length", mandatory="strict")
+        self += Field("Content_Type", mandatory="strict")
+        self += Field("WARC_Block_Digest", mandatory="strict")
+        self += Field("WARC_Date", mandatory="strict")
+        self += Field("WARC_Refers_To", mandatory="strict")
+        self += Field("WARC_Type", mandatory="strict")

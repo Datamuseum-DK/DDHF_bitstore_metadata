@@ -30,9 +30,9 @@
     =============
 '''
 
-from ddhf_metadata.internals.fields import Field, EnumField
-from ddhf_metadata.internals.section import Section
-from ddhf_metadata.internals import rcsl
+from ddhf_bitstore_metadata.internals.fields import Field, EnumField
+from ddhf_bitstore_metadata.internals.section import Section
+from ddhf_bitstore_metadata.internals import rcsl
 
 KEYWORDS = set([
     "ALGOL",

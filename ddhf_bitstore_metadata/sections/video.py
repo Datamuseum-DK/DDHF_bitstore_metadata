@@ -26,41 +26,20 @@
 
 
 '''
-    Document sections
-    =================
+    Video sections
+    ==============
 '''
 
-import re
+from ddhf_bitstore_metadata.internals.fields import Field
+from ddhf_bitstore_metadata.internals.section import Section
 
-from ddhf_metadata.internals.fields import Field
-from ddhf_metadata.internals.section import Section
-from ddhf_metadata.internals import rcsl
-
-class ISSN(Field):
-    ''' ISSN - International Standard Serial Number '''
-
-    def validate(self):
-        if not re.match('^[0-9]{4}-[0-9]{4}$', self.val):
-            self.complain("ISSN format is not ####-#### (%s)" % self.val)
-
-class ISBN(Field):
-    ''' International Standard Book Number '''
-
-    def validate(self):
-        if not re.match('^[0-9]{10}$', self.val):
-            self.complain("ISBN format is not ########## (%s)" % self.val)
-
-class Document(Section):
-    ''' Document sections '''
+class Video(Section):
+    '''
+        Video sections
+    '''
 
     def build(self):
-        self += Field("Title", mandatory=True)
-        self += Field("Subtitle", single=False)
-        self += rcsl.RCSL_Field()
-        self += rcsl.GSL_Field()
-        self += Field("Author", single=False)
-        self += Field("Date")
+        self += Field("Summary", mandatory=True)
         self += Field("Description", single=False)
-        self += ISSN("ISSN")
-        self += ISBN("ISBN")
-        self.acceptable_formats('PDF', 'ASCII')
+        self += Field("Date")
+        self.acceptable_formats('MP4')

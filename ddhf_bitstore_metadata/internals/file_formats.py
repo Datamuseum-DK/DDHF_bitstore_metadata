@@ -26,18 +26,38 @@
 
 
 '''
-    Image sections
-    ==============
+    Fileformats - fall-back if ddhf_bitstore_fileformats not installed
+    ==================================================================
 '''
 
-from ddhf_metadata.internals.fields import Field
-from ddhf_metadata.internals.section import Section
+class FallbackFileformats():
+    ''' Fallback file format check, if ddhf_bitstore_fileformats not installed '''
 
-class Image(Section):
-    ''' Image sections '''
+    OK_LIST = {
+        'ASCII': 'txt',
+        'ASCII_EVEN': 'bin',
+        'ASCII_ODD': 'bin',
+        'BAGIT': 'zip',
+        'BINARY': 'bin',
+        'GIERTEXT': 'flx',
+        'JPG': 'jpg',
+        'KRYOFLUX': 'zip',
+        'MP4': 'mp4',
+        'PDF': 'pdf',
+        'PNG': 'png',
+        'SIMH-TAP': 'tap',
+        'TAR': 'tar',
+    }
 
-    def build(self):
-        self += Field("Summary", mandatory=True)
-        self += Field("Description", single=False)
-        self += Field("Date")
-        self.acceptable_formats('PNG', 'JPG')
+    def __contains__(self, what):
+        return what in self.OK_LIST
+
+    def get_extension(self, what):
+        ''' Appropriate extension for this format '''
+        return self.OK_LIST[what]
+
+try:
+    import ddhf_bitstore_fileformats
+    FileFormats = ddhf_bitstore_fileformats.FileFormats()
+except ModuleNotFoundError:
+    FileFormats = FallbackFileformats()

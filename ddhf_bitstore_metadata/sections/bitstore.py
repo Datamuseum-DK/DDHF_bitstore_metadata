@@ -34,40 +34,9 @@ import os
 import re
 import time
 
-from ddhf_metadata.internals.fields import Field, EnumField
-from ddhf_metadata.internals.section import Section
-
-class FallbackFileformats():
-    ''' Fallback file format check, if ddhf_bitstore_fileformats not installed '''
-
-    OK_LIST = {
-        'ASCII': 'txt',
-        'ASCII_EVEN': 'bin',
-        'ASCII_ODD': 'bin',
-        'BAGIT': 'zip',
-        'BINARY': 'bin',
-        'GIERTEXT': 'flx',
-        'JPG': 'jpg',
-        'KRYOFLUX': 'zip',
-        'MP4': 'mp4',
-        'PDF': 'pdf',
-        'PNG': 'png',
-        'SIMH-TAP': 'tap',
-        'TAR': 'tar',
-    }
-
-    def __contains__(self, what):
-        return what in self.OK_LIST
-
-    def get_extension(self, what):
-        ''' Appropriate extension for this format '''
-        return self.OK_LIST[what]
-
-try:
-    import ddhf_bitstore_fileformats
-    fileformats = ddhf_bitstore_fileformats.FileFormats()
-except ModuleNotFoundError:
-    fileformats = FallbackFileformats()
+from ddhf_bitstore_metadata.internals.fields import Field, EnumField
+from ddhf_bitstore_metadata.internals.section import Section
+from ddhf_bitstore_metadata.internals.file_formats import FileFormats
 
 class Access(Field):
     ''' (public|private|restricted|gone)[/(public|private|restricted|gone)] '''
@@ -152,7 +121,7 @@ class Format(EnumField):
     ''' Must match extension '''
 
     def validate(self):
-        want_ext = fileformats.get_extension(self.val)
+        want_ext = FileFormats.get_extension(self.val)
         fname = self.sect.Filename
         has_ext = os.path.splitext(fname.val)
         if has_ext[1].lower() != "." + want_ext:
@@ -165,11 +134,11 @@ class BitStore(Section):
 
     def build(self):
 
-        self += EnumField("Metadata_version", legal_values={"1.0",}, single=True, mandatory=True)
-        self += Access("Access", single=True, mandatory=True)
+        self += EnumField("Metadata_version", legal_values={"1.0",}, mandatory=True)
+        self += Access("Access", mandatory=True)
         self += Filename("Filename", mandatory=True)
         self += Size("Size", mandatory="strict")
-        self += Format("Format", fileformats, single=True, mandatory=True)
-        self += Ident("Ident", mandatory="strict", single=True)
+        self += Format("Format", FileFormats, mandatory=True)
+        self += Ident("Ident", mandatory="strict")
         self += Digest("Digest", mandatory="strict")
         self += LastEdit("Last_edit", mandatory=True)

@@ -26,19 +26,18 @@
 
 
 '''
-    Album sections
+    Image sections
     ==============
 '''
 
-from ddhf_metadata.internals import fields
-from ddhf_metadata.internals.section import Section
+from ddhf_bitstore_metadata.internals.fields import Field
+from ddhf_bitstore_metadata.internals.section import Section
 
-class Album(Section):
-    ''' Album sections '''
+class Image(Section):
+    ''' Image sections '''
 
     def build(self):
-        self += fields.Field("Title", mandatory=True)
-        self += fields.Field("Description", single=False)
-        self.acceptable_formats(
-            'BAGIT',
-        )
+        self += Field("Summary", mandatory=True)
+        self += Field("Description", single=False)
+        self += Field("Date")
+        self.acceptable_formats('PNG', 'JPG')

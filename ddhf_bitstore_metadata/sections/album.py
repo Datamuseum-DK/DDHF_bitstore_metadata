@@ -26,36 +26,19 @@
 
 
 '''
-    Event sections
+    Album sections
     ==============
 '''
 
-import time
+from ddhf_bitstore_metadata.internals import fields
+from ddhf_bitstore_metadata.internals.section import Section
 
-from ddhf_metadata.internals.fields import Field
-from ddhf_metadata.internals.section import Section
-
-class EventDate(Field):
-    ''' Date of event '''
-
-    def validate(self):
-        try:
-            time.strptime(self.val, "%Y%m%d")
-        except ValueError:
-            self.complain('Event.Date should be YYYYMMDD format')
-
-        kw_want = "EVENT/" + self.val[:4]
-        if not self.sect.metadata.DDHF.has_keyword(kw_want):
-            self.complain('DDHF.Keywords lack "%s"' % kw_want)
-
-class Event(Section):
-    '''
-        Event sections
-    '''
+class Album(Section):
+    ''' Album sections '''
 
     def build(self):
-        self += Field("Title", mandatory=True)
-        self += Field("Subtitle", single=False)
-        self += EventDate("Date", mandatory=True)
-        self += Field("Location", mandatory=True)
-        self += Field("Description", single=False)
+        self += fields.Field("Title", mandatory=True)
+        self += fields.Field("Description", single=False)
+        self.acceptable_formats(
+            'BAGIT',
+        )
