@@ -30,7 +30,7 @@
    Datamuseum.dk BitStore Metadata Files
 '''
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def readme():
     ''' emit README '''
@@ -48,6 +48,6 @@ setup(
     author='Poul-Henning Kamp',
     author_email='phk@FreeBSD.org',
     license='BSD',
-    packages=['ddhf_bitstore_metadata'],
+    packages=find_packages(),
     zip_safe=False
 )
