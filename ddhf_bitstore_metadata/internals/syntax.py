@@ -170,7 +170,7 @@ class MetadataSyntax():
 
     def get_line(self):
         ''' Get the next line '''
-        if self.cursor >= len(self.lines:
+        if self.cursor >= len(self.lines):
             self.lines[-1].complain("Unexpected end of file")
         retval = self.lines[self.cursor]
         self.cursor += 1
