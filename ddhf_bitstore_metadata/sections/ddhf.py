@@ -270,6 +270,7 @@ KEYWORDS = set([
     "RC850/CPM",
     "RC900",
     "RC9000",
+    "RC9000/DISK",
     "RC911",
     "SDC/BALLERUP",
     "SDC/COMPANY",
