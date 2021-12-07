@@ -44,9 +44,6 @@ class MetadataLine():
         if len(text) == 0:
             return
 
-        if len(text) > 1 and text[-1].isspace():
-            self.complain("Trailing Whitespace %s" % str([text[-1]]))
-
         if text[0] == ' ':
             self.complain("Leading SP (only TAB allowed)")
 
@@ -178,6 +175,10 @@ class MetadataSyntax():
 
     def lexer(self):
         ''' Lexical analysis '''
+
+        if len(self.lines) <= 1:
+            raise MetadataSyntaxError("Empty")
+
         if len(self.lines[-1]) > 0:
             self.lines[-1].complain("Missing NL on last line")
 
@@ -193,7 +194,9 @@ class MetadataSyntax():
 
             if line.text == "*END*":
                 if len(self.lines) != line.lineno:
-                    line.complain("*END* is not final line (%d)" % len(self.lines))
+                    self.lines[line.lineno].complain(
+                        "*END* is not final line (%d)" % len(self.lines)
+                    )
                 break
 
             if line.text[0] == '\t':

@@ -45,10 +45,12 @@ class Access(Field):
 
     def validate(self):
         if len(self.val.split()) > 1:
-            self.complain('White-space not allowed')
+            yield self.complaint('White-space not allowed')
+            return
         j = self.val.split("/")
         if not 1 <= len(j) <= 2:
-            self.complain('Format error (must be ACCESS or ACCESS/ACCESS)')
+            yield self.complaint('Format error (must be ACCESS or ACCESS/ACCESS)')
+            return
         ok_levels = {
             'gone': -1,
             'public': 0,
@@ -57,77 +59,92 @@ class Access(Field):
         }
         levels = [ok_levels.get(i) for i in j]
         if None in levels:
-            self.complain('Valid access levels are: ' + ', '.join(ok_levels.keys()))
+            yield self.complaint('Valid access levels are: ' + ', '.join(ok_levels.keys()))
+            return
 
         if -1 in levels and len(levels) > 1:
-            self.complain('Access "gone" invalid with split access ("/")')
+            yield self.complaint('Access "gone" invalid with split access ("/")')
+            return
 
         if len(levels) != len(set(levels)):
-            self.complain('Identical split access')
+            yield self.complaint('Identical split access')
+            return
 
         if levels != list(sorted(levels)):
-            self.complain('Access to metadata stricter than to artifact')
+            yield self.complaint('Access to metadata stricter than to artifact')
+            return
 
 class Size(Field):
     ''' Must be a decimal number '''
 
     def validate(self):
         if not self.val.isascii() or not self.val.isdigit():
-            self.complain('Not a number')
+            yield self.complaint('Not a number')
+            return
         if self.val == "0":
-            self.complain('Size cannot be zero')
+            yield self.complaint('Size cannot be zero')
+            return
         if self.val[0] == "0":
-            self.complain('Leading zeros')
+            yield self.complaint('Leading zeros')
 
 class Filename(Field):
     ''' Must be sensible '''
 
     def validate(self):
         if not re.match('^[a-zæøåA-ZÆØÅ0-9_][a-zæøåA-ZÆØÅ0-9_.-]*$', self.val):
-            self.complain('Bad filename (illegal characters)')
+            yield self.complaint('Bad filename (illegal characters)')
 
 class Ident(Field):
     ''' Must be 8 digits with optional generation number '''
 
     def validate(self):
         if not self.val.isascii() or len(self.val.split()) != 1:
-            self.complain('Not a valid identifier')
+            yield self.complaint('Not a valid identifier')
+            return
         flds = self.val.split(':')
         if len(flds) > 2:
-            self.complain('Not a valid identifier')
-        if not flds[0].isdigit() or len(flds[0]) != 8:
-            self.complain('Not a valid identifier')
-        if flds[0][0] != '3':
-            self.complain('Not a valid bitstore identifier')
+            yield self.complaint('Not a valid identifier')
+        try:
+            i = int(flds[0], 10)
+        except ValueError:
+            yield self.complaint('Not a valid identifier')
+            return
+        if not 30000000 <= i <= 39999999:
+            yield self.complaint('Not a valid identifier')
         if len(flds) == 2:
             try:
-                int(flds[1])
+                i = int(flds[1], 10)
             except ValueError:
-                self.complain('Not a valid bitstore identifier(generation)')
+                yield self.complaint('Not a valid generation')
+                return
+            if i < 1:
+                yield self.complaint('Not a valid generation')
 
 class Digest(Field):
     ''' sha256:[0-9a-f]{64} '''
 
     def validate(self):
         if not re.match('^sha256:[0-9a-f]{64}$', self.val):
-            self.complain('Bad digest')
+            yield self.complaint('Bad digest')
 
 class LastEdit(Field):
     ''' Must be YYYYMMDD name '''
 
     def validate(self):
         if not re.match('^20[012][0-9][012][0-9][0-3][0-9]', self.val):
-            self.complain('Invalid date')
+            yield self.complaint('Invalid date')
+            return
         if not re.match('^[0-9]{8} ', self.val):
-            self.complain('Date nog followed by SP')
+            yield self.complaint('Date not followed by SP')
+            return
         if not re.match('^[0-9]{8} [^ ]', self.val):
-            self.complain('More than one SP after date')
+            yield self.complaint('More than one SP after date')
         flds = self.val.split(" ", 1)
         assert len(flds) == 2
         try:
             time.strptime(flds[0], "%Y%m%d")
         except ValueError:
-            self.complain('Not a valid date')
+            yield self.complaint('Not a valid date')
 
 class Format(EnumField):
     ''' Must match extension '''
@@ -137,7 +154,7 @@ class Format(EnumField):
         fname = self.sect.Filename
         has_ext = os.path.splitext(fname.val)
         if has_ext[1].lower() != "." + want_ext:
-            fname.complain('BitStore.filename suffix must be ".%s"' % want_ext)
+            yield fname.complaint('BitStore.filename suffix must be ".%s"' % want_ext)
 
 class BitStore(Section):
     '''

@@ -69,18 +69,19 @@ class Geometry(Field):
                 elem = i.pop(0)
                 count = int(elem[:-1])
                 if count <= 0:
-                    self.complain("count '%s' <= 0" % elem)
+                    yield self.complaint("count '%s' <= 0" % elem)
+                    return
                 zsiz *= count
                 where = suf.find(elem[-1])
                 if where < 0:
-                    self.complain("suffix letter '%s' unknown or out of order" % elem[-1])
+                    yield self.complaint("suffix letter '%s' unknown or out of order" % elem[-1])
                 suf = suf[where + 1:]
             siz += zsiz
         bitstore_size = self.sect.metadata.BitStore.Size.val
         if bitstore_size is not None:
             bsz = int(bitstore_size)
             if siz != bsz:
-                self.complain("Geometry (%d) disagrees with Bitstore.Size (%d)" % (siz, bsz))
+                yield self.complaint("Geometry (%d) disagrees with Bitstore.Size (%d)" % (siz, bsz))
 
 class Media(Section):
     '''

@@ -55,7 +55,7 @@ class GSLField(fields.Field):
 
     def validate(self):
         if not self.sect.metadata.DDHF.has_keyword("GSL"):
-            self.complain('DDHF.Keywords lack "GSL"')
+            yield self.complaint('DDHF.Keywords lack "GSL"')
 
 class RCSLField(fields.Field):
     ''' RegneCentralen System Library numbers '''
@@ -66,18 +66,22 @@ class RCSLField(fields.Field):
     def validate(self):
         for line in self.stanza:
             if len(line.text[1:].split()) > 1:
-                line.complain("White-space not allowed")
+                yield line.complaint("White-space not allowed")
+                return
             parts = self.val.split('-')
             if len(parts) != 4 or parts[0] != "RCSL":
-                line.complain('RCSL must have from RCSL-#-$-#')
+                yield line.complaint('RCSL must have from RCSL-#-$-#')
+                return
 
             try:
                 int(parts[3], 10)
             except ValueError:
-                line.complain('RCSL must have from RCSL-#-$-#')
+                yield line.complaint('RCSL must have from RCSL-#-$-#')
+                return
 
             if not parts[1:3] in RCSLS:
-                line.complain('Unknown RCSL dept-loc')
+                yield line.complaint('Unknown RCSL dept-loc')
+                return
             kw_want = "RCSL/" + "/".join(parts[1:3])
             if not self.sect.metadata.DDHF.has_keyword(kw_want):
-                line.complain('DDHF.Keywords lack "%s"' % kw_want)
+                yield line.complaint('DDHF.Keywords lack "%s"' % kw_want)

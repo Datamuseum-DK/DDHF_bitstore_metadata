@@ -43,14 +43,14 @@ class ISSN(Field):
 
     def validate(self):
         if not re.match('^[0-9]{4}-[0-9]{4}$', self.val):
-            self.complain("ISSN format is not ####-#### (%s)" % self.val)
+            yield self.complaint("ISSN format is not ####-#### (%s)" % self.val)
 
 class ISBN(Field):
     ''' International Standard Book Number '''
 
     def validate(self):
         if not re.match('^[0-9]{10}$', self.val):
-            self.complain("ISBN format is not ########## (%s)" % self.val)
+            yield self.complaint("ISBN format is not ########## (%s)" % self.val)
 
 class Document(Section):
     ''' Document sections '''

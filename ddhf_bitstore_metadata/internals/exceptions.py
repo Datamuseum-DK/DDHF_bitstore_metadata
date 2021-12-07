@@ -45,5 +45,14 @@ class MetadataSemanticError(Exception):
 
     def __init__(self, text, line="", where=""):
         super().__init__(text)
+        self.text = text
         self.line = line
         self.where = where
+
+    def __str__(self):
+        text = "Semantic Error: " + self.text
+        if self.where:
+            text += "\n  " + self.where
+        if self.line:
+            text += "\n  ⎣" + self.line + "⎤"
+        return text

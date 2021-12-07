@@ -305,22 +305,22 @@ class KeywordField(EnumField):
     ''' We render keywords as links to the wiki index pages '''
 
     def validate(self):
-        super().validate()
+        yield from super().validate()
         for line in self.stanza:
             if line.text[1:] == "ARTIFACTS":
                 if self.sect.Genstand.stanza is None:
-                    line.complain('Has DDHF.Keywords "ARTIFACTS" but no DDHF.Genstand')
+                    yield line.complaint('Has DDHF.Keywords "ARTIFACTS" but no DDHF.Genstand')
 
 class GenstandField(Field):
     ''' Reference to REGBASE '''
 
     def validate(self):
         if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
-            self.complain('Not a valid identifier')
-        if self.val[0] != '1':
-            self.complain('Not a valid artifact identifier')
+            yield self.complaint('Not a valid identifier')
+        elif self.val[0] != '1':
+            yield self.complaint('Not a valid artifact identifier')
         if not self.sect.has_keyword("ARTIFACTS"):
-            self.stanza.stanza_line.complain('DDHF.Keywords lack "ARTIFACTS"')
+            yield self.stanza.stanza_line.complaint('DDHF.Keywords lack "ARTIFACTS"')
 
 class DDHF(Section):
     ''' DDHF section '''

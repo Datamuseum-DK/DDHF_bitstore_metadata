@@ -46,6 +46,7 @@ class MetadataBase():
         self.sections = dict()
         self.valid_formats = set()
         self.valid_formats_sections = set()
+        self.complaints = list()
 
         mds = syntax.MetadataSyntax(text)
         for stanza in mds:
@@ -82,29 +83,34 @@ class MetadataBase():
         else:
             self.valid_formats &= set(fmts)
 
-    def validate(self, strict=False):
+    def validate(self):
         ''' Validate metadata '''
+        for i in self.litany():
+            raise i
+
+    def litany(self):
+        ''' Yield a litany of exceptions '''
         for mandatory in (
             "BitStore",
             "DDHF",
         ):
             if mandatory not in self.sections:
-                raise exceptions.MetadataSemanticError("No %s section" % mandatory)
+                yield exceptions.MetadataSemanticError("No %s section" % mandatory)
         if not self.valid_formats and self.valid_formats_sections:
-            raise exceptions.MetadataSemanticError(
+            yield exceptions.MetadataSemanticError(
                 "Incompatible content sections (%s)" % str(self.valid_formats_sections)
             )
         for sect in self.sections.values():
-            sect.validate(strict)
+            yield from sect.litany()
+
 
 class Metadata(MetadataBase):
     '''
     Mostly a convenience wrapper
     '''
 
-    def __init__(self, filename=None, text=None):
+    def __init__(self, *args, filename=None, **kwargs):
         if filename is not None:
-            assert text is None
-            super().__init__(open(filename).read())
-        elif text is not None:
-            super().__init__(text)
+            super().__init__(open(filename).read(), *args, **kwargs)
+        else:
+            super().__init__(*args, **kwargs)

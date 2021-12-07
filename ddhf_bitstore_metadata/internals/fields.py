@@ -53,30 +53,37 @@ class Field():
         ''' Serialize field in canonical metadata format '''
         return self.stanza
 
-    def complain(self, why, where=None):
-        ''' Raise MetadataSemanticError on this field '''
+    def complaint(self, why, where=None):
+        ''' Produce MetadataSemanticError on this field '''
         if where is None and self.stanza is not None:
             where = self.stanza[0]
         if where is None:
-            raise MetadataSemanticError(why)
+            return MetadataSemanticError(why + " (" + str(where) + ")")
         assert isinstance(where, MetadataLine)
-        raise MetadataSemanticError(
+        return MetadataSemanticError(
             why,
             where="line % d" % where.lineno,
             line=where.text,
         )
 
-    def validate_field(self, strict=False):
-        ''' Validate this field '''
+    def litany(self):
+        ''' Yield a litany of exceptions '''
         if self.mandatory is True and self.stanza is None:
-            self.complain("Missing mandatory field " + self.full_name)
-        if self.mandatory == "strict" and strict and self.stanza is None:
-            self.complain("Missing mandatory field " + self.full_name)
+            yield self.complaint("Missing mandatory field " + self.full_name)
+        if self.mandatory == "strict" and self.stanza is None:
+            yield self.complaint("Missing mandatory field " + self.full_name)
         if self.stanza:
-            self.validate()
+            if self.stanza.stanza_line.text[-1].isspace():
+                yield self.complaint("Trailing white space")
+            for i in self.stanza.lines:
+                if i.text != "\t" and i.text[-1].isspace():
+                    yield self.complaint("Trailing white space", i)
+            yield from self.validate()
 
     def validate(self):
         ''' By default validation passes '''
+        if False:
+            yield None
 
     def create(self, stanza):
         ''' create this field '''
@@ -105,4 +112,4 @@ class EnumField(Field):
     def validate(self):
         for line in self.stanza:
             if line.text[1:] not in self.legal_values:
-                self.complain("Illegal value (%s)" % line.text[1:], where=line)
+                yield self.complaint("Illegal value (%s)" % line.text[1:], where=line)

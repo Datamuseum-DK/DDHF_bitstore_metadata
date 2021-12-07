@@ -109,7 +109,12 @@ class Section():
             stanza.complain("No such field in section " + self.name)
         field.create(stanza)
 
-    def validate(self, strict=False):
+    def validate(self):
         ''' Validate this section '''
         for fld in self.fields.values():
-            fld.validate_field(strict)
+            fld.validate_field()
+
+    def litany(self):
+        ''' Yield a litany of complaints '''
+        for fld in self.fields.values():
+            yield from fld.litany()

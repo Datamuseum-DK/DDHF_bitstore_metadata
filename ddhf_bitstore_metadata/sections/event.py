@@ -44,11 +44,12 @@ class EventDate(Field):
         try:
             time.strptime(self.val, "%Y%m%d")
         except ValueError:
-            self.complain('Event.Date should be YYYYMMDD format')
+            yield self.complaint('Event.Date should be YYYYMMDD format')
+            return
 
         kw_want = "EVENT/" + self.val[:4]
         if not self.sect.metadata.DDHF.has_keyword(kw_want):
-            self.complain('DDHF.Keywords lack "%s"' % kw_want)
+            yield self.complaint('DDHF.Keywords lack "%s"' % kw_want)
 
 class Event(Section):
     '''

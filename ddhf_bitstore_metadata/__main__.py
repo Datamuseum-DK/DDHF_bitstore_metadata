@@ -38,17 +38,42 @@ def main():
     ''' Validate all metadata files given as arguments '''
     exit_status = 0
     for filename in sys.argv[1:]:
+        mentioned = False
         try:
             mdi = internals.Metadata(filename=filename)
-            mdi.validate()
         except internals.MetadataSyntaxError as err:
-            print("Syntax Error: ", err, '(', filename, err.where, ')')
-            print("\t", err.line)
+            if not mentioned:
+                print(filename, "=> Syntax error")
+                mentioned = True
+            print("    Syntax Error: ", err)
+            if err.where:
+                print("\t" + err.where)
+            print("\t⎣" + err.line + "⎤")
             exit_status = 1
-        except internals.MetadataSemanticError as err:
-            print("Semantic Error: ", err, '(', filename, err.where, ')')
-            print("\t", err.line)
+            continue
+
+        # We do not insist on certain fields
+        bitstore = getattr(mdi, "BitStore", None)
+        if bitstore:
+            for fldname in ("Size", "Ident", "Digest",):
+                fld = getattr(bitstore, fldname, None)
+                if fld:
+                    fld.mandatory = False
+
+        for err in mdi.litany():
+            if not mentioned:
+                print(filename, "=> Semantic error")
+                mentioned = True
+            print('    ' + str(err.text))
+            if err.where:
+                print('\t' + str(err.where))
+            if err.line:
+                print("\t⎣" + err.line + "⎤")
             exit_status = 1
+
+        if not mentioned:
+            print(filename, "=> OK")
+
     sys.exit(exit_status)
 
 if __name__ == "__main__":
