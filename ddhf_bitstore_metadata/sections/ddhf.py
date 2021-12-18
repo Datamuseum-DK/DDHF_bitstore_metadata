@@ -225,6 +225,7 @@ KEYWORDS = set([
     "RC3500/ALARMNET",
     "RC3500/DOCS",
     "RC3500/HW",
+    "RC3500/TAPE",
     "RC3600",
     "RC3600/COMAL",
     "RC3600/DE2",
