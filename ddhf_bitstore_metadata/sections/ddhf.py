@@ -152,6 +152,7 @@ KEYWORDS = set([
     "EVENT/2018",
     "EVENT/2019",
     "EVENT/2020",
+    "EVENT/2022",
     "EVENT/COVER",
     "EVENT/SLIDES",
     "EVENT/VIDEO",
