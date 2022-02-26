@@ -178,6 +178,7 @@ KEYWORDS = set([
     "GIER/UTIL",
     "GSL",
     "IMAGES",
+    "IMAGES/DDHF",
     "IMAGES/OLDGALLERY",
     "IMAGES/SDC",
     "JET80",
