@@ -117,6 +117,7 @@ KEYWORDS = set([
     "CRYPTOGRAPHY",
     "DANKORT",
     "DASK",
+    "DASK/DOCS",
     "DASK/LIBRARY",
     "DATALOGI",
     "DATALÆRE",
