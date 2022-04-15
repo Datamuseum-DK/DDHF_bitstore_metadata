@@ -56,7 +56,7 @@ def main():
             try:
                 file = open(filename[:-5], "rb")
                 i = internals.Artifact(mdi)
-                i.tmpfile = file
+                i.open_artifact(file)
                 mdi.add_accessor(i)
             except FileNotFoundError:
                 pass

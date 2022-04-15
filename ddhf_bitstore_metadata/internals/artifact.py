@@ -42,22 +42,29 @@ class Artifact():
         super().__init__()
         self.mdata = mdata
         self.aa_id = mdata.BitStore.Digest.val[7:7+24]
-        self.tmpfile = None
+        self.artifact = None
         self.zipfile = None
 
-    def make_zipfile(self):
+    def open_artifact(self, file=None):
+        ''' Open the artifact '''
+        if self.artifact is not None:
+            return
+        self.artifact = file
+
+    def open_bagit(self):
         ''' Open Zip/Bagit file '''
+        self.open_artifact()
         if self.zipfile is None:
-            self.zipfile = zipfile.ZipFile(self.tmpfile)
+            self.zipfile = zipfile.ZipFile(self.artifact)
 
     def bagit_contents(self):
-        ''' yield substance filenames of Bagit file '''
+        ''' Yield payload filenames of Bagit file '''
         basename = self.mdata.BitStore.Filename.val
         assert basename[-4:].lower() == ".zip"
         basename = basename[:-4]
         prefix = basename + "/data/"
         lprefix = len(prefix)
-        self.make_zipfile()
+        self.open_bagit()
         for zname in self.zipfile.namelist():
             if len(zname) > lprefix and zname[:lprefix] == prefix:
                 yield zname[lprefix:]
