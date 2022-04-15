@@ -60,6 +60,7 @@ class Geometry(Field):
     '''
 
     def validate(self):
+        yield from super().validate()
         siz = 0
         for part in self.val.split(','):
             zsiz = 1

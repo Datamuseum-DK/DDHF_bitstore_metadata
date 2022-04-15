@@ -41,6 +41,7 @@ class EventDate(Field):
     ''' Date of event '''
 
     def validate(self):
+        yield from super().validate()
         try:
             time.strptime(self.val, "%Y%m%d")
         except ValueError:

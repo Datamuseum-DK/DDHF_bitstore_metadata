@@ -52,6 +52,15 @@ def main():
             exit_status = 1
             continue
 
+        if filename[-5:] == ".meta":
+            try:
+                file = open(filename[:-5], "rb")
+                i = internals.Artifact(mdi)
+                i.tmpfile = file
+                mdi.add_accessor(i)
+            except FileNotFoundError:
+                pass
+
         # We do not insist on certain fields
         bitstore = getattr(mdi, "BitStore", None)
         if bitstore:

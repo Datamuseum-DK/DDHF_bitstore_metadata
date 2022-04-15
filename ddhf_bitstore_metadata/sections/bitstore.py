@@ -44,6 +44,7 @@ class Access(Field):
     ''' (public|private|restricted|gone)[/(public|private|restricted|gone)] '''
 
     def validate(self):
+        yield from super().validate()
         if len(self.val.split()) > 1:
             yield self.complaint('White-space not allowed')
             return
@@ -78,6 +79,7 @@ class Size(Field):
     ''' Must be a decimal number '''
 
     def validate(self):
+        yield from super().validate()
         if not self.val.isascii() or not self.val.isdigit():
             yield self.complaint('Not a number')
             return
@@ -91,6 +93,7 @@ class Filename(Field):
     ''' Must be sensible '''
 
     def validate(self):
+        yield from super().validate()
         if not re.match('^[a-zæøåA-ZÆØÅ0-9_][a-zæøåA-ZÆØÅ0-9_.-]*$', self.val):
             yield self.complaint('Bad filename (illegal characters)')
 
@@ -98,6 +101,7 @@ class Ident(Field):
     ''' Must be 8 digits with optional generation number '''
 
     def validate(self):
+        yield from super().validate()
         if not self.val.isascii() or len(self.val.split()) != 1:
             yield self.complaint('Not a valid identifier')
             return
@@ -124,6 +128,7 @@ class Digest(Field):
     ''' sha256:[0-9a-f]{64} '''
 
     def validate(self):
+        yield from super().validate()
         if not re.match('^sha256:[0-9a-f]{64}$', self.val):
             yield self.complaint('Bad digest')
 
@@ -131,6 +136,7 @@ class LastEdit(Field):
     ''' Must be YYYYMMDD name '''
 
     def validate(self):
+        yield from super().validate()
         if not re.match('^20[012][0-9][012][0-9][0-3][0-9]', self.val):
             yield self.complaint('Invalid date')
             return
@@ -150,6 +156,7 @@ class Format(EnumField):
     ''' Must match extension '''
 
     def validate(self):
+        yield from super().validate()
         want_ext = FileFormats.get_extension(self.val)
         fname = self.sect.Filename
         has_ext = os.path.splitext(fname.val)

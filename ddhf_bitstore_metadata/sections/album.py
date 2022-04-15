@@ -35,12 +35,82 @@
 from ddhf_bitstore_metadata.internals import fields
 from ddhf_bitstore_metadata.internals.section import Section
 
+
+class AlbumDescriptionField(fields.Field):
+    ''' ... '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.images = {}
+
+    def single_image(self, line, key):
+        ''' Single image line '''
+        if key in self.images:
+            yield self.complaint("Image '%s' listed multiple times" % key, line)
+        else:
+            self.images[key] = line
+
+    def image_range(self, line, key):
+        ''' Range of images line '''
+        if key[1] != '-':
+            yield self.complaint("Syntax error in range of images", line)
+            return
+        if len(key[0]) != len(key[2]):
+            yield self.complaint("Different length filenames in range of images", line)
+            return
+        if key[0] == key[2]:
+            yield self.complaint("Identical filenames in range of images", line)
+            return
+        start = key[0].rsplit(".", 1)
+        end = key[2].rsplit(".", 1)
+        if start[-1] != end[-1]:
+            yield self.complaint("Different filetypes in range of images", line)
+            return
+        pfxlen = 0
+        for i, j in zip(start[0], end[0]):
+            if i != j:
+                break
+            pfxlen += 1
+
+        pfx = start[0][:pfxlen]
+        fmt = "%0" + "%dd" % (len(start[0]) - pfxlen)
+        try:
+            low = int(start[0][pfxlen:], 10)
+            high = int(end[0][pfxlen:], 10) + 1
+        except ValueError:
+            yield self.complaint("Non-decimal tail of filenames range of images", line)
+            return
+        for i in range(low, high):
+            imgnm = pfx + fmt % i + "." + start[-1]
+            yield from self.single_image(line, imgnm)
+
+    def validate(self):
+        yield from super().validate()
+        if not self.images:
+            for line in self.stanza:
+                if line.text[-1] == ':':
+                    key = line.text[:-1].split()
+                    if len(key) == 1:
+                        yield from self.single_image(line, key[0])
+                    else:
+                        yield from self.image_range(line, key)
+        if self.sect.metadata.artifact:
+            found = set()
+            for i in self.sect.metadata.artifact.bagit_contents():
+                if i in self.images:
+                    found.add(i)
+                else:
+                    yield self.complaint("Image '%s' missing in metadata list" % i)
+            for key, line in self.images.items():
+                if key not in found:
+                    yield self.complaint("Image missing in BAGIT file", line)
+
 class Album(Section):
     ''' Album sections '''
 
     def build(self):
         self += fields.Field("Title", mandatory=True)
-        self += fields.Field("Description", single=False)
+        self += AlbumDescriptionField("Description", single=False)
         self.acceptable_formats(
             'BAGIT',
         )

@@ -54,6 +54,7 @@ class GSLField(fields.Field):
         super().__init__("GSL", **kwargs)
 
     def validate(self):
+        yield from super().validate()
         if not self.sect.metadata.DDHF.has_keyword("GSL"):
             yield self.complaint('DDHF.Keywords lack "GSL"')
 
@@ -64,24 +65,25 @@ class RCSLField(fields.Field):
         super().__init__("RCSL", **kwargs)
 
     def validate(self):
+        yield from super().validate()
         for line in self.stanza:
             if len(line.text[1:].split()) > 1:
-                yield line.complaint("White-space not allowed")
+                yield self.complaint("White-space not allowed", line)
                 return
             parts = self.val.split('-')
             if len(parts) != 4 or parts[0] != "RCSL":
-                yield line.complaint('RCSL must have from RCSL-#-$-#')
+                yield self.complaint('RCSL must have from RCSL-#-$-#', line)
                 return
 
             try:
                 int(parts[3], 10)
             except ValueError:
-                yield line.complaint('RCSL must have from RCSL-#-$-#')
+                yield self.complaint('RCSL must have from RCSL-#-$-#', line)
                 return
 
             if not parts[1:3] in RCSLS:
-                yield line.complaint('Unknown RCSL dept-loc')
+                yield self.complaint('Unknown RCSL dept-loc', line)
                 return
             kw_want = "RCSL/" + "/".join(parts[1:3])
             if not self.sect.metadata.DDHF.has_keyword(kw_want):
-                yield line.complaint('DDHF.Keywords lack "%s"' % kw_want)
+                yield self.complaint('DDHF.Keywords lack "%s"' % kw_want, line)

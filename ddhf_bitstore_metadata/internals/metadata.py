@@ -36,6 +36,8 @@ from ddhf_bitstore_metadata.internals import exceptions
 from ddhf_bitstore_metadata.internals import syntax
 from ddhf_bitstore_metadata.internals.file_formats import FileFormats
 
+from ddhf_bitstore_metadata.internals import artifact
+
 class MetadataBase():
     '''
     Bitstore Metadata base class
@@ -47,6 +49,7 @@ class MetadataBase():
         self.valid_formats = set()
         self.valid_formats_sections = set()
         self.complaints = list()
+        self.artifact = None
 
         mds = syntax.MetadataSyntax(text)
         for stanza in mds:
@@ -83,6 +86,11 @@ class MetadataBase():
         else:
             self.valid_formats &= set(fmts)
 
+    def add_accessor(self, accessor):
+        ''' Add accessor for the artifact '''
+        assert isinstance(accessor, artifact.Artifact)
+        self.artifact = accessor
+
     def validate(self):
         ''' Validate metadata '''
         for i in self.litany():
@@ -111,6 +119,7 @@ class Metadata(MetadataBase):
 
     def __init__(self, *args, filename=None, **kwargs):
         if filename is not None:
-            super().__init__(open(filename).read(), *args, **kwargs)
+            with open(filename) as file:
+                super().__init__(file.read(), *args, **kwargs)
         else:
             super().__init__(*args, **kwargs)

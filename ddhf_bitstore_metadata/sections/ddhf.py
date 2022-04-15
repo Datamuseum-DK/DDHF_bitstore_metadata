@@ -319,18 +319,32 @@ class KeywordField(EnumField):
         for line in self.stanza:
             if line.text[1:] == "ARTIFACTS":
                 if self.sect.Genstand.stanza is None:
-                    yield line.complaint('Has DDHF.Keywords "ARTIFACTS" but no DDHF.Genstand')
+                    yield self.complaint('Has DDHF.Keywords "ARTIFACTS" but no DDHF.Genstand', line)
 
 class GenstandField(Field):
     ''' Reference to REGBASE '''
 
     def validate(self):
+        yield from super().validate()
         if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
             yield self.complaint('Not a valid identifier')
         elif self.val[0] != '1':
             yield self.complaint('Not a valid artifact identifier')
         if not self.sect.has_keyword("ARTIFACTS"):
-            yield self.stanza.stanza_line.complaint('DDHF.Keywords lack "ARTIFACTS"')
+            yield self.complaint('DDHF.Keywords lack "ARTIFACTS"')
+
+class PresentationField(Field):
+    ''' Instructions for presentation facilities '''
+
+    def validate(self):
+        yield from super().validate()
+        for line in self.stanza:
+            fields = line.text.split(maxsplit=1)
+            if fields[0] not in (
+                "AA",
+                "Gallery",
+            ):
+                yield self.complaint('DDHF.Presentation: Unknown presentor', line)
 
 class DDHF(Section):
     ''' DDHF section '''
@@ -339,6 +353,7 @@ class DDHF(Section):
         self += KeywordField("Keyword", KEYWORDS, single=False, mandatory=True)
         self += GenstandField("Genstand")
         self += Field("Provenance", single=False)
+        self += PresentationField("Presentation", single=False)
 
     def has_keyword(self, key):
         ''' Check if we have a particular keyword '''

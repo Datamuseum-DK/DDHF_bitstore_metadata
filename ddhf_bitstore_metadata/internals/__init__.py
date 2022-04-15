@@ -35,3 +35,4 @@ from ddhf_bitstore_metadata.internals.fields import *
 from ddhf_bitstore_metadata.internals.section import Section
 from ddhf_bitstore_metadata.internals.metadata import Metadata
 from ddhf_bitstore_metadata.internals import syntax
+from ddhf_bitstore_metadata.internals.artifact import Artifact

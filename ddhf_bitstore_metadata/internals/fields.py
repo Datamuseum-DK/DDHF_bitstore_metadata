@@ -82,8 +82,8 @@ class Field():
 
     def validate(self):
         ''' By default validation passes '''
-        if False:
-            yield None
+        return
+        yield self
 
     def create(self, stanza):
         ''' create this field '''
@@ -110,6 +110,7 @@ class EnumField(Field):
         self.legal_values = legal_values
 
     def validate(self):
+        yield from super().validate()
         for line in self.stanza:
             if line.text[1:] not in self.legal_values:
                 yield self.complaint("Illegal value (%s)" % line.text[1:], where=line)

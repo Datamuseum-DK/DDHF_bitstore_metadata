@@ -27,8 +27,37 @@
 # SUCH DAMAGE.
 
 '''
-   Minimal export
+   Artifact class
+   --------------
+
+   Provides validators (optional) access to the artifact.
 '''
 
-from ddhf_bitstore_metadata.internals import Metadata, Artifact
-from ddhf_bitstore_metadata.internals.exceptions import MetadataSyntaxError, MetadataSemanticError
+import zipfile
+
+class Artifact():
+    ''' Accessor class for artifacts '''
+
+    def __init__(self, mdata):
+        super().__init__()
+        self.mdata = mdata
+        self.aa_id = mdata.BitStore.Digest.val[7:7+24]
+        self.tmpfile = None
+        self.zipfile = None
+
+    def make_zipfile(self):
+        ''' Open Zip/Bagit file '''
+        if self.zipfile is None:
+            self.zipfile = zipfile.ZipFile(self.tmpfile)
+
+    def bagit_contents(self):
+        ''' yield substance filenames of Bagit file '''
+        basename = self.mdata.BitStore.Filename.val
+        assert basename[-4:].lower() == ".zip"
+        basename = basename[:-4]
+        prefix = basename + "/data/"
+        lprefix = len(prefix)
+        self.make_zipfile()
+        for zname in self.zipfile.namelist():
+            if len(zname) > lprefix and zname[:lprefix] == prefix:
+                yield zname[lprefix:]
