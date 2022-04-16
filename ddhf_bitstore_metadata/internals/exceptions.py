@@ -31,16 +31,7 @@
    -----------------
 '''
 
-
-class MetadataSyntaxError(Exception):
-    ''' Syntax error in metadata '''
-
-    def __init__(self, text, line="", where=""):
-        super().__init__(text)
-        self.line = line
-        self.where = where
-
-class MetadataSemanticError(Exception):
+class MetadataError(Exception):
     ''' ... '''
 
     def __init__(self, text, line="", where=""):
@@ -56,3 +47,9 @@ class MetadataSemanticError(Exception):
         if self.line:
             text += "\n  ⎣" + self.line + "⎤"
         return text
+
+class MetadataSyntaxError(MetadataError):
+    ''' Syntax error in metadata '''
+
+class MetadataSemanticError(MetadataError):
+    ''' Semantic error in metadata '''

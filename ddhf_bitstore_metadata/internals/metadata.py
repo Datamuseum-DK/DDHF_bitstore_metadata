@@ -31,12 +31,11 @@
    -------------------
 '''
 
+from ddhf_bitstore_metadata.internals import artifact
 from ddhf_bitstore_metadata.internals import section
 from ddhf_bitstore_metadata.internals import exceptions
 from ddhf_bitstore_metadata.internals import syntax
 from ddhf_bitstore_metadata.internals.file_formats import FileFormats
-
-from ddhf_bitstore_metadata.internals import artifact
 
 class MetadataBase():
     '''
@@ -45,10 +44,10 @@ class MetadataBase():
     '''
 
     def __init__(self, text=None):
-        self.sections = dict()
+        self.sections = {}
         self.valid_formats = set()
         self.valid_formats_sections = set()
-        self.complaints = list()
+        self.complaints = []
         self.artifact = None
 
         mds = syntax.MetadataSyntax(text)
@@ -117,9 +116,13 @@ class Metadata(MetadataBase):
     Mostly a convenience wrapper
     '''
 
-    def __init__(self, *args, filename=None, **kwargs):
+    def __init__(self, *args, filename=None, artifact_file=None, **kwargs):
         if filename is not None:
             with open(filename) as file:
                 super().__init__(file.read(), *args, **kwargs)
         else:
             super().__init__(*args, **kwargs)
+        if artifact is not None:
+            i = artifact.Artifact(self)
+            i.open_artifact(open(artifact_file, "rb"))
+            self.add_accessor(i)

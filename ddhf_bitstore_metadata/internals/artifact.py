@@ -41,7 +41,10 @@ class Artifact():
     def __init__(self, mdata):
         super().__init__()
         self.mdata = mdata
-        self.aa_id = mdata.BitStore.Digest.val[7:7+24]
+        if mdata.BitStore.Digest.val is not None:
+            self.aa_id = mdata.BitStore.Digest.val[7:7+24]
+        else:
+            self.aa_id = None
         self.artifact = None
         self.zipfile = None
 

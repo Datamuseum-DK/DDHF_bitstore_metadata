@@ -207,6 +207,8 @@ class MetadataSyntax():
                 line = self.get_line()
                 if len(line) == 0:
                     break
+                if line.text[0] != '\t':
+                    line.complain("Line does not start with TAB")
                 if line.text == "*END*":
                     line.complain("Missing blank line before *END*")
                 stanza_lines.append(line)
