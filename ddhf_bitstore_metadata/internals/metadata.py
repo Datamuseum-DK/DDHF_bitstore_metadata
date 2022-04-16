@@ -122,7 +122,7 @@ class Metadata(MetadataBase):
                 super().__init__(file.read(), *args, **kwargs)
         else:
             super().__init__(*args, **kwargs)
-        if artifact is not None:
+        if artifact_file is not None:
             i = artifact.Artifact(self)
             i.open_artifact(open(artifact_file, "rb"))
             self.add_accessor(i)
