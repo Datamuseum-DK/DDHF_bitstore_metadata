@@ -115,12 +115,13 @@ class Media(Section):
         self += Field("Serial")
         self += Field("Description", single=False)
         self.acceptable_formats(
-            'SIMH-TAP',
-            'BINARY',
             'ASCII',
             'ASCII_EVEN',
             'ASCII_ODD',
+            'BINARY',
             'GIERTEXT',
+            'IMD',
             'KRYOFLUX',
+            'SIMH-TAP',
             'TAR',
         )
