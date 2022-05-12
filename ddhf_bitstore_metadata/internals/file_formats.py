@@ -42,6 +42,7 @@ class FallbackFileformats():
         'BAGIT': 'zip',
         'BINARY': 'bin',
         'GIERTEXT': 'flx',
+        'IMD': 'imd',
         'JPG': 'jpg',
         'KRYOFLUX': 'zip',
         'MP4': 'mp4',
