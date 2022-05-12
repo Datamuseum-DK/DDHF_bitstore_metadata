@@ -120,7 +120,7 @@ class Media(Section):
             'ASCII_ODD',
             'BINARY',
             'GIERTEXT',
-            'IMD',
+            'IMAGEDISK',
             'KRYOFLUX',
             'SIMH-TAP',
             'TAR',
