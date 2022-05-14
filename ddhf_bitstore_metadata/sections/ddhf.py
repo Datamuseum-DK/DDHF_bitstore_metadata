@@ -37,6 +37,7 @@ from ddhf_bitstore_metadata.internals.section import Section
 from ddhf_bitstore_metadata.internals import rcsl
 
 KEYWORDS = set([
+    "ABC80",
     "ALGOL",
     "ANALOG_COMPUTING",
     "APL",
@@ -101,6 +102,7 @@ KEYWORDS = set([
     "COMPANY/SINCLAIR",
     "COMPANY/SWTPC",
     "COMPANY/TJÆREBORG",
+    "COMPANY/UNICOMAL",
     "COMPANY/VEGA_DATA",
     "COMPANY/VESTKRAFT",
     "COMPANY/VP",
