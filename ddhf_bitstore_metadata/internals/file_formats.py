@@ -35,6 +35,7 @@
 from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat
 
 from ddhf_bitstore_metadata.formats.imagedisk import ImageDisk
+from ddhf_bitstore_metadata.formats.bagit import BagIt
 
 class Ascii(FileFormat):
     ''' ... '''
@@ -48,9 +49,9 @@ class AsciiOdd(FileFormat):
     ''' ... '''
     EXTENSION = "bin"
 
-class BagIt(FileFormat):
+class GierText(FileFormat):
     ''' ... '''
-    EXTENSION = "zip"
+    EXTENSION = "flx"
 
 class Binary(FileFormat):
     ''' ... '''
@@ -93,7 +94,7 @@ class Fileformats():
         'ASCII_ODD': AsciiOdd,
         'BAGIT': BagIt,
         'BINARY': Binary,
-        'GIERTEXT': 'flx',
+        'GIERTEXT': GierText,
         'IMAGEDISK': ImageDisk,
         'JPG': JPG,
         'KRYOFLUX': KryoFlux,
@@ -115,6 +116,7 @@ class Fileformats():
         ''' Yield a litany of complaints '''
         assert mdi.artifact
         fmt = mdi.BitStore.Format.val
+        # fmt = "BAGIT"
         yield from self.OK_LIST[fmt](mdi).litany()
 
 FileFormats = Fileformats()

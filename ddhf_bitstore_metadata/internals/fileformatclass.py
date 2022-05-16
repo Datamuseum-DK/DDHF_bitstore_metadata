@@ -51,7 +51,8 @@ class FileFormat():
 
     def validate(self):
         ''' Validate file format '''
-        yield FileFormatError("(FileFormat Not Checked)")
+        if False:
+            yield FileFormatError("(FileFormat Not Checked)")
 
     def litany(self):
         ''' Yield the litany of faults found '''

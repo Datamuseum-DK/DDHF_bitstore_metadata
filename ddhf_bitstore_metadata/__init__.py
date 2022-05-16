@@ -31,4 +31,4 @@
 '''
 
 from ddhf_bitstore_metadata.internals import Metadata, Artifact
-from ddhf_bitstore_metadata.internals.exceptions import MetadataSyntaxError, MetadataSemanticError
+from ddhf_bitstore_metadata.internals.exceptions import MetadataSyntaxError, MetadataSemanticError, FileFormatError

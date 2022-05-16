@@ -53,14 +53,15 @@ def main():
             exit_status = 1
             continue
 
+        expected_artifact = ""
         if filename[-5:] == ".meta":
+            expected_artifact = filename[:-5]
             try:
-                file = open(filename[:-5], "rb")
+                file = open(expected_artifact, "rb")
                 i = internals.Artifact(mdi)
                 i.open_artifact(file)
                 mdi.add_accessor(i)
             except FileNotFoundError:
-                print(" ??", filename[:-5])
                 pass
 
         # We do not insist on certain fields
@@ -81,8 +82,14 @@ def main():
             if err.line:
                 print("\t⎣" + err.line + "⎤")
             exit_status = 1
+
         if not mentioned:
-            print(filename, "=> OK", mdi.BitStore.Format.val)
+            if mdi.artifact:
+                print(filename, "=> OK")
+            elif expected_artifact:
+                print(filename, "=> OK\n\tCould not open", expected_artifact)
+            else:
+                print(filename, "=> OK\n\tArtifact not checked")
 
     sys.exit(exit_status)
 
