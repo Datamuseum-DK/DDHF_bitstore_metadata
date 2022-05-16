@@ -26,14 +26,36 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+
 '''
-    The internal workings of the ddh_metadata package
+    Fileformat base class
+    =====================
 '''
 
-from ddhf_bitstore_metadata.internals.exceptions import *
-from ddhf_bitstore_metadata.internals.fields import *
-from ddhf_bitstore_metadata.internals.section import Section
-from ddhf_bitstore_metadata.internals.metadata import Metadata
-from ddhf_bitstore_metadata.internals import syntax
-from ddhf_bitstore_metadata.internals.artifact import Artifact
-from ddhf_bitstore_metadata.internals.file_formats import FileFormats
+from ddhf_bitstore_metadata.internals.exceptions import FileFormatError, ShortFile
+
+
+class FileFormat():
+    ''' ... '''
+
+    EXTENSION = None
+
+    def __init__(self, mdi):
+        self.mdi = mdi
+        self.octets = mdi.artifact.octets
+
+    def need(self, length):
+        ''' Complain if artifict not at least this long '''
+        if length > len(self.octets):
+            raise ShortFile("Artifact (at least) %d bytes too short" % (length - len(self.octets)))
+
+    def validate(self):
+        ''' Validate file format '''
+        yield FileFormatError("(FileFormat Not Checked)")
+
+    def litany(self):
+        ''' Yield the litany of faults found '''
+        try:
+            yield from self.validate()
+        except ShortFile as err:
+            yield err

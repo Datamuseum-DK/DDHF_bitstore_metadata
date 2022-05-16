@@ -33,6 +33,8 @@
    Provides validators (optional) access to the artifact.
 '''
 
+import os
+import mmap
 import zipfile
 
 class Artifact():
@@ -47,12 +49,15 @@ class Artifact():
             self.aa_id = None
         self.artifact = None
         self.zipfile = None
+        self.octets = None
 
     def open_artifact(self, file=None):
         ''' Open the artifact '''
         if self.artifact is not None:
             return
         self.artifact = file
+        length = os.fstat(file.fileno()).st_size
+        self.octets = mmap.mmap(file.fileno(), length, flags=mmap.MAP_PRIVATE, prot=mmap.PROT_READ)
 
     def open_bagit(self):
         ''' Open Zip/Bagit file '''

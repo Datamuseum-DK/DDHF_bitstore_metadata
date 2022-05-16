@@ -45,7 +45,8 @@ def main():
             if not mentioned:
                 print(filename, "=> Syntax error")
                 mentioned = True
-            print("    Syntax Error: ", err)
+            else:
+                print("    Syntax Error: ", err)
             if err.where:
                 print("\t" + err.where)
             print("\t⎣" + err.line + "⎤")
@@ -59,6 +60,7 @@ def main():
                 i.open_artifact(file)
                 mdi.add_accessor(i)
             except FileNotFoundError:
+                print(" ??", filename[:-5])
                 pass
 
         # We do not insist on certain fields
@@ -71,7 +73,7 @@ def main():
 
         for err in mdi.litany():
             if not mentioned:
-                print(filename, "=> Semantic error")
+                print(filename, "=>", err.kind)
                 mentioned = True
             print('    ' + str(err.text))
             if err.where:
@@ -79,9 +81,8 @@ def main():
             if err.line:
                 print("\t⎣" + err.line + "⎤")
             exit_status = 1
-
         if not mentioned:
-            print(filename, "=> OK")
+            print(filename, "=> OK", mdi.BitStore.Format.val)
 
     sys.exit(exit_status)
 

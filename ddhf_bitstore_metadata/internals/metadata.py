@@ -110,6 +110,8 @@ class MetadataBase():
         for sect in self.sections.values():
             yield from sect.litany()
 
+        if self.artifact:
+            yield from FileFormats.litany(self)
 
 class Metadata(MetadataBase):
     '''
@@ -118,11 +120,12 @@ class Metadata(MetadataBase):
 
     def __init__(self, *args, filename=None, artifact_file=None, **kwargs):
         if filename is not None:
-            with open(filename) as file:
+            with open(filename, encoding="utf8") as file:
                 super().__init__(file.read(), *args, **kwargs)
         else:
             super().__init__(*args, **kwargs)
         if artifact_file is not None:
-            i = artifact.Artifact(self)
-            i.open_artifact(open(artifact_file, "rb"))
-            self.add_accessor(i)
+            with open(artifact_file, "rb") as file:
+                i = artifact.Artifact(self)
+                i.open_artifact(file)
+                self.add_accessor(i)

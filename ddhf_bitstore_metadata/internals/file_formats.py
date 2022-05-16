@@ -32,24 +32,76 @@
     ==================================================================
 '''
 
-class FallbackFileformats():
+from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat
+
+from ddhf_bitstore_metadata.formats.imagedisk import ImageDisk
+
+class Ascii(FileFormat):
+    ''' ... '''
+    EXTENSION = "txt"
+
+class AsciiEven(FileFormat):
+    ''' ... '''
+    EXTENSION = "bin"
+
+class AsciiOdd(FileFormat):
+    ''' ... '''
+    EXTENSION = "bin"
+
+class BagIt(FileFormat):
+    ''' ... '''
+    EXTENSION = "zip"
+
+class Binary(FileFormat):
+    ''' ... '''
+    EXTENSION = "bin"
+
+class JPG(FileFormat):
+    ''' ... '''
+    EXTENSION = "jpg"
+
+class KryoFlux(FileFormat):
+    ''' ... '''
+    EXTENSION = "zip"
+
+class MP4(FileFormat):
+    ''' ... '''
+    EXTENSION = "mp4"
+
+class PDF(FileFormat):
+    ''' ... '''
+    EXTENSION = "pdf"
+
+class PNG(FileFormat):
+    ''' ... '''
+    EXTENSION = "png"
+
+class SimhTap(FileFormat):
+    ''' ... '''
+    EXTENSION = "tap"
+
+class Tar(FileFormat):
+    ''' ... '''
+    EXTENSION = "tar"
+
+class Fileformats():
     ''' Fallback file format check, if ddhf_bitstore_fileformats not installed '''
 
     OK_LIST = {
-        'ASCII': 'txt',
-        'ASCII_EVEN': 'bin',
-        'ASCII_ODD': 'bin',
-        'BAGIT': 'zip',
-        'BINARY': 'bin',
+        'ASCII': Ascii,
+        'ASCII_EVEN': AsciiEven,
+        'ASCII_ODD': AsciiOdd,
+        'BAGIT': BagIt,
+        'BINARY': Binary,
         'GIERTEXT': 'flx',
-        'IMAGEDISK': 'imd',
-        'JPG': 'jpg',
-        'KRYOFLUX': 'zip',
-        'MP4': 'mp4',
-        'PDF': 'pdf',
-        'PNG': 'png',
-        'SIMH-TAP': 'tap',
-        'TAR': 'tar',
+        'IMAGEDISK': ImageDisk,
+        'JPG': JPG,
+        'KRYOFLUX': KryoFlux,
+        'MP4': MP4,
+        'PDF': PDF,
+        'PNG': PNG,
+        'SIMH-TAP': SimhTap,
+        'TAR': Tar,
     }
 
     def __contains__(self, what):
@@ -57,10 +109,12 @@ class FallbackFileformats():
 
     def get_extension(self, what):
         ''' Appropriate extension for this format '''
-        return self.OK_LIST[what]
+        return self.OK_LIST[what].EXTENSION
 
-try:
-    import ddhf_bitstore_fileformats
-    FileFormats = ddhf_bitstore_fileformats.FileFormats()
-except ModuleNotFoundError:
-    FileFormats = FallbackFileformats()
+    def litany(self, mdi):
+        ''' Yield a litany of complaints '''
+        assert mdi.artifact
+        fmt = mdi.BitStore.Format.val
+        yield from self.OK_LIST[fmt](mdi).litany()
+
+FileFormats = Fileformats()

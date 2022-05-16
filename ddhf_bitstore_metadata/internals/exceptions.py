@@ -34,6 +34,8 @@
 class MetadataError(Exception):
     ''' ... '''
 
+    kind = "Metadata Error"
+
     def __init__(self, text, line="", where=""):
         super().__init__(text)
         self.text = text
@@ -50,6 +52,16 @@ class MetadataError(Exception):
 
 class MetadataSyntaxError(MetadataError):
     ''' Syntax error in metadata '''
+    kind = "Metadata Syntax Error"
 
 class MetadataSemanticError(MetadataError):
     ''' Semantic error in metadata '''
+    kind = "Metadata Semantic Error"
+
+class FileFormatError(MetadataError):
+    ''' ... '''
+    kind = "FileFormat Error"
+
+class ShortFile(FileFormatError):
+    ''' ... '''
+    kind = "File too short"
