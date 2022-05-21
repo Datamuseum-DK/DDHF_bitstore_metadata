@@ -46,6 +46,9 @@ class FileFormat():
 
     def need(self, length):
         ''' Complain if artifict not at least this long '''
+        if self.octets is None:
+            self.mdi.artifact.open_artifact()
+            self.octets = self.mdi.artifact.octets
         if length > len(self.octets):
             raise ShortFile("Artifact (at least) %d bytes too short" % (length - len(self.octets)))
 
