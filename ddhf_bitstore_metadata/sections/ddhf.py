@@ -112,6 +112,7 @@ KEYWORDS = set([
     "COMPUTER-KITS",
     "CPR",
     "CR",
+    "CR/CR5",
     "CR/CR7",
     "CR/CR8",
     "CR/CR80/SW",
