@@ -62,6 +62,7 @@ class Geometry(Field):
     def validate(self):
         yield from super().validate()
         siz = 0
+
         for part in self.val.split(','):
             zsiz = 1
             i = part.split()
@@ -125,3 +126,14 @@ class Media(Section):
             'SIMH-TAP',
             'TAR',
         )
+
+    def litany(self):
+        fmt = self.metadata.BitStore.Format.val
+        if fmt in (
+            "IMAGEDISK",
+        ):
+            if self.Geometry.val:
+                yield self.Geometry.complaint(
+                    "Media.Geometry not allowed for %s format" % fmt
+                )
+        yield from super().litany()
