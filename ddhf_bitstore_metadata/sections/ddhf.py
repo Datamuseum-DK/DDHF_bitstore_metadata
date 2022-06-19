@@ -188,6 +188,7 @@ KEYWORDS = set([
     "IMAGES/DDHF",
     "IMAGES/OLDGALLERY",
     "IMAGES/SDC",
+    "JAMES",
     "JET80",
     "LANGUAGES",
     "LANGUAGES/BASIC",
@@ -200,6 +201,7 @@ KEYWORDS = set([
     "NETWORKS/INTERNET",
     "NETWORKS/PAXNET",
     "OS/FLEX",
+    "OS/MIKADOS",
     "OS/MS-DOS",
     "OS/UNIFLEX",
     "OS/XDOS",
@@ -310,7 +312,6 @@ KEYWORDS = set([
     "UNKNOWN/PAPERTAPE",
     "UNKNOWN/TAPE",
     "UX",
-    "XXX",
 ])
 
 for i in rcsl.RCSLS:
