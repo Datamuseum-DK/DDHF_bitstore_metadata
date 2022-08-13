@@ -49,10 +49,6 @@ class Field():
         self.mandatory = mandatory
         self.val = None
 
-    def serialize(self):
-        ''' Serialize field in canonical metadata format '''
-        return self.stanza
-
     def complaint(self, why, where=None):
         ''' Produce MetadataSemanticError on this field '''
         if where is None and self.stanza is not None:
@@ -99,6 +95,18 @@ class Field():
         self.val = [j for i, j in self.stanza.iterlines()]
         if self.single:
             self.val = self.val[0]
+
+    def serialize(self):
+        ''' Serialize field in canonical metadata format '''
+        if self.val is None:
+            return
+        yield self.full_name + ":"
+        if isinstance(self.val, list):
+            for i in self.val: 
+                yield "\t" + i
+        else:
+            yield "\t" + str(self.val)
+        yield ""
 
 class EnumField(Field):
     '''

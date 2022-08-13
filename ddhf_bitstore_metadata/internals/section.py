@@ -118,3 +118,8 @@ class Section():
         ''' Yield a litany of complaints '''
         for fld in self.fields.values():
             yield from fld.litany()
+
+    def serialize(self):
+        ''' Serialize in canonical format '''
+        for j in self.fields.values():
+            yield from j.serialize()

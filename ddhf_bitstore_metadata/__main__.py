@@ -36,8 +36,14 @@ from ddhf_bitstore_metadata import internals
 
 def main():
     ''' Validate all metadata files given as arguments '''
+    sys.argv.pop(0)
+    if sys.argv[0] == '-n':
+        normalize = True
+        sys.argv.pop(0)
+    else:
+        normalize = False
     exit_status = 0
-    for filename in sys.argv[1:]:
+    for filename in sys.argv:
         mentioned = False
         try:
             mdi = internals.Metadata(filename=filename)
@@ -83,7 +89,12 @@ def main():
                 print("\t⎣" + err.line + "⎤")
             exit_status = 1
 
-        if not mentioned:
+        if normalize:
+            for i in mdi.serialize():
+                print(i)
+            print("*END*")
+
+        elif not mentioned:
             if mdi.artifact:
                 print(filename, "=> OK")
             elif expected_artifact:

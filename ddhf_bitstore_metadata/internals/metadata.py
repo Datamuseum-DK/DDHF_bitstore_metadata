@@ -113,6 +113,10 @@ class MetadataBase():
         if self.artifact:
             yield from FileFormats.litany(self)
 
+    def serialize(self):
+        for sect in self.sections.values():
+            yield from sect.serialize()
+
 class Metadata(MetadataBase):
     '''
     Mostly a convenience wrapper
@@ -128,3 +132,4 @@ class Metadata(MetadataBase):
             i = artifact.Artifact(self)
             i.open_artifact(open(artifact_file, "rb"))
             self.add_accessor(i)
+
