@@ -314,6 +314,7 @@ KEYWORDS = set([
     "SDC/TP2½",
     "SDC/VESTERPORT",
     "SDC/ÅRHUS",
+    "SELVBYG",
     "SINCLAIR/ZX80",
     "SOCIETY",
     "STORAGE",
