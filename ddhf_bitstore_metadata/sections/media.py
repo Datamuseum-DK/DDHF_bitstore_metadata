@@ -112,6 +112,7 @@ class Media(Section):
                 'Mini-Cassette',
             },
         )
+        self += Field("Date")
         self += Field("Model")
         self += Field("Serial")
         self += Field("Description", single=False)
