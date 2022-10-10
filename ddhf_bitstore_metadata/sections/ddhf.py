@@ -169,6 +169,7 @@ KEYWORDS = set([
     "EVENT/COVER",
     "EVENT/SLIDES",
     "EVENT/VIDEO",
+    "EVENT/PHOTOS",
     "FORMIDLING",
     "GAMES",
     "GAMES/HUGO",
