@@ -285,6 +285,7 @@ KEYWORDS = set([
     "RC4000/PULAWY",
     "RC4000/SW",
     "RC4000/TEST",
+    "RC5000",
     "RC6000",
     "RC6000/DISK",
     "RC700",
