@@ -33,6 +33,7 @@
 import sys
 
 from ddhf_bitstore_metadata import internals
+from ddhf_bitstore_metadata.sections.ddhf import KEYWORDS
 
 def main():
     ''' Validate all metadata files given as arguments '''
@@ -42,6 +43,12 @@ def main():
         sys.argv.pop(0)
     else:
         normalize = False
+
+    if sys.argv[0] == '-k':
+        for kw, desc in sorted(KEYWORDS.items()):
+            print(kw, desc)
+        exit(0)
+
     exit_status = 0
     for filename in sys.argv:
         mentioned = False
