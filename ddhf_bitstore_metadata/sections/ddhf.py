@@ -88,6 +88,7 @@ KEYWORDS = {
     "COMPANY/LEC": "",
     "COMPANY/METANIC": "",
     "COMPANY/MICROSOFT": "",
+    "COMPANY/MIKRO_VÆRKSTEDET": "",
     "COMPANY/MIDAS": "",
     "COMPANY/NAVISION": "",
     "COMPANY/NEUCC": "",
