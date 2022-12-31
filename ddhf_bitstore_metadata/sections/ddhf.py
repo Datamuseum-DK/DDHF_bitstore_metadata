@@ -140,6 +140,7 @@ KEYWORDS = {
     "DDE/SUPERMAX/DISK": "",
     "DDHF/FORMALIA": "Formal documents of Datamuseum.dk ",
     "DDHF/HISTORY": "Historical events about Datamuseum.dk",
+    "DDHF/NYHEDSBREV": "Newsletters from Datamuseum.dk",
     "DKUUG": "",
     "DKUUG/DISKS": "",
     "DKUUG/EUUG": "",
