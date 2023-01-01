@@ -39,6 +39,7 @@ from ddhf_bitstore_metadata.internals import rcsl
 KEYWORDS = {
     "ABC80": "",
     "ALGOL": "",
+    "AMIGA": "",
     "ANALOG_COMPUTING": "",
     "APL": "",
     "ARTIFACTS": "",
@@ -52,6 +53,7 @@ KEYWORDS = {
     "COMAL/RC3600": "",
     "COMAL/RC700": "",
     "COMAL/Z80": "",
+    "COMPANY/ATARI/ST": "",
     "COMPANY/ATP": "",
     "COMPANY/BOGIKA": "",
     "COMPANY/BORLAND": "",
@@ -98,6 +100,7 @@ KEYWORDS = {
     "COMPANY/NORSK_DATA/DOCS": "",
     "COMPANY/ODENSE_UNI": "",
     "COMPANY/OLICOM": "",
+    "COMPANY/OSM/ZEUS": "",
     "COMPANY/PBS": "",
     "COMPANY/PRESSPLAY": "",
     "COMPANY/RISØ": "",
