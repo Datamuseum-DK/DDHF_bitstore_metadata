@@ -76,6 +76,7 @@ KEYWORDS = {
     "COMPANY/FACIT/TWIST": "",
     "COMPANY/FLÅDEN": "",
     "COMPANY/GNT": "",
+    "COMPANY/GUNDY/NEWBRAIN": "",
     "COMPANY/HALDOR_TOPSØE": "",
     "COMPANY/IBM": "",
     "COMPANY/IBM/3270": "",
