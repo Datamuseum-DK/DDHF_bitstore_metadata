@@ -215,7 +215,7 @@ KEYWORDS = {
     "NETWORKS/INTERNET": "",
     "NETWORKS/PAXNET": "",
     "OS/CONCURRENT-DOS": "",
-    "OS/CPM80": "",
+    "OS/CPM-80": "",
     "OS/FLEX": "",
     "OS/MIK": "",
     "OS/MIKADOS": "",
