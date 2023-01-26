@@ -53,6 +53,7 @@ KEYWORDS = {
     "COMAL/RC3600": "",
     "COMAL/RC700": "",
     "COMAL/Z80": "",
+    "COMPANY/APPLE/II": "",
     "COMPANY/ATARI/ST": "",
     "COMPANY/ATP": "",
     "COMPANY/BOGIKA": "",
