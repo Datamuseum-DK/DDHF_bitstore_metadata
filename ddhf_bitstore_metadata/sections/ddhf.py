@@ -90,6 +90,7 @@ KEYWORDS = {
     "COMPANY/JTAS": "",
     "COMPANY/KTAS": "",
     "COMPANY/LEC": "",
+    "COMPANY/LFU": "",
     "COMPANY/METANIC": "",
     "COMPANY/MICROSOFT": "",
     "COMPANY/MIKRO_VÆRKSTEDET": "",
