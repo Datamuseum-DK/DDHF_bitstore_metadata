@@ -125,6 +125,7 @@ KEYWORDS = {
     "CR/CR5": "",
     "CR/CR7": "",
     "CR/CR8": "",
+    "CR/CR16": "",
     "CR/CR80/SW": "",
     "CR/FIKS": "",
     "CR/INTERNT": "",
