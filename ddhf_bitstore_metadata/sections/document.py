@@ -121,6 +121,7 @@ class Document(Section):
         self += Field("Subtitle", single=False)
         self += rcsl.RCSLField()
         self += rcsl.GSLField()
+        self += Field("DdeDocNo")
         self += Field("Author", single=False)
         self += Field("Date")
         self += Field("Description", single=False)
