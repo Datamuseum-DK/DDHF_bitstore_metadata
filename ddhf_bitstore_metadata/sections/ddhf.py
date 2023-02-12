@@ -142,6 +142,7 @@ KEYWORDS = {
     "DDE": "",
     "DDE/MARKETING": "",
     "DDE/SUPERMAX": "",
+    "DDE/SUPERMAX/DOCS": "",
     "DDE/SUPERMAX/DISK": "",
     "DDHF/FORMALIA": "Formal documents of Datamuseum.dk ",
     "DDHF/HISTORY": "Historical events about Datamuseum.dk",
