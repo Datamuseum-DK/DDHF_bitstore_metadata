@@ -164,29 +164,6 @@ KEYWORDS = {
     "EDUCATION/GEOGRAPHY": "",
     "EDUCATION/LANGUAGE": "",
     "EDUCATION/MATH": "",
-    "EVENT/1958": "",
-    "EVENT/1960": "",
-    "EVENT/1965": "",
-    "EVENT/2002": "",
-    "EVENT/2003": "",
-    "EVENT/2004": "",
-    "EVENT/2005": "",
-    "EVENT/2006": "",
-    "EVENT/2007": "",
-    "EVENT/2008": "",
-    "EVENT/2009": "",
-    "EVENT/2010": "",
-    "EVENT/2011": "",
-    "EVENT/2012": "",
-    "EVENT/2013": "",
-    "EVENT/2014": "",
-    "EVENT/2015": "",
-    "EVENT/2016": "",
-    "EVENT/2017": "",
-    "EVENT/2018": "",
-    "EVENT/2019": "",
-    "EVENT/2020": "",
-    "EVENT/2022": "",
     "EVENT/COVER": "Cover art for Datamuseum.dk DVDs",
     "EVENT/PHOTOS": "Photos from events",
     "EVENT/SLIDES": "Presentation material from events",
@@ -359,6 +336,9 @@ KEYWORDS = {
     "UNKNOWN/TAPE": "",
     "UX": "",
 }
+
+for year in range(1958, 2024):
+    KEYWORDS["EVENT/%4d" % year] = "Events in %d" % year
 
 for i in rcsl.RCSLS:
     KEYWORDS["/".join(["RCSL"] + i)] = "Artifacts in this RCSL series"
