@@ -150,6 +150,7 @@ KEYWORDS = {
     "DATALÆRE": "",
     "DDE": "",
     "DDE/MARKETING": "",
+    "DDE/SPC-1": "",
     "DDE/SUPERMAX": "",
     "DDE/SUPERMAX/DISK": "",
     "DDE/SUPERMAX/DOCS": "",
