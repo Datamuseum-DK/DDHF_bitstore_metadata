@@ -161,6 +161,8 @@ KEYWORDS = {
     "DKUUG/DISKS": "",
     "DKUUG/EUUG": "",
     "EDUCATION": "",
+    "EDUCATION/ASTRONOMY": "",
+    "EDUCATION/CHEMISTRY": "",
     "EDUCATION/GEOGRAPHY": "",
     "EDUCATION/LANGUAGE": "",
     "EDUCATION/MATH": "",
