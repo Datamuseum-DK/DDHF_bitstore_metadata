@@ -71,6 +71,7 @@ KEYWORDS = {
     "COMPANY/DDC": "",
     "COMPANY/DSB": "",
     "COMPANY/DSI": "",
+    "COMPANY/ELLIOTT_AUTOMATION": "",
     "COMPANY/FACIT": "",
     "COMPANY/FACIT/ABC80": "",
     "COMPANY/FACIT/TWIST": "",
