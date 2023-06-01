@@ -287,6 +287,7 @@ KEYWORDS = {
     "RC/RC4000/SCIENCE": "",
     "RC/RC4000/SW": "",
     "RC/RC4000/TEST": "",
+    "RC/RC45": "",
     "RC/RC5000": "",
     "RC/RC6000": "",
     "RC/RC6000/DISK": "",
