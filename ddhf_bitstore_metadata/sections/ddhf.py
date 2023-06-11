@@ -254,6 +254,8 @@ KEYWORDS = {
     "RATIONAL_1000/SW": "",
     "RATIONAL_1000/TAPE": "",
     "RC": "RegneCentralen",
+    "RC/INTERNT": "",
+    "RC/MARKETING": "",
     "RC/RC1000": "",
     "RC/RC1700": "",
     "RC/RC2000": "",
