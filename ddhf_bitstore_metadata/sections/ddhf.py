@@ -247,6 +247,7 @@ KEYWORDS = {
     "PERSONS/RICHARD_PETERSEN": "",
     "PRECOMPUTING": "",
     "PROJECTS/AMANDA": "",
+    "PROJECTS/DORA": "",
     "PÆDAT": "Educational 16 bit computer",
     "RATIONAL_1000": "Rational R1000/s400 Ada Computer",
     "RATIONAL_1000/DISK": "",
