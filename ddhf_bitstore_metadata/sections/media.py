@@ -110,6 +110,10 @@ class Media(Section):
                 'SCSI Disk',
                 'ATA Disk',
                 'Mini-Cassette',
+                '¼" cartridge magtape',
+                '⅛" cartridge magtape',
+                'LTO cartridge magtape',
+                '4mm DAT magtape',
             },
         )
         self += Field("Date")

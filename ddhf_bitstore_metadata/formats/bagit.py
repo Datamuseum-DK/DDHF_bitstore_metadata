@@ -125,7 +125,7 @@ class BagIt(FileFormat):
             rfn = zfn[len(dname):]
             digest = expected_files.get(rfn)
             if not digest:
-                yield FileFormatError("File '" + fn + " not in manifest")
+                yield FileFormatError("File '" + rfn + " not in manifest")
                 return
             del expected_files[rfn]
             sha256 = hashlib.sha256()
