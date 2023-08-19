@@ -65,10 +65,7 @@ def validate_bagit_txt(lines, vfilename, *_args):
 def validate_manifest(lines, vfilename, files):
     ''' ... '''
     for line in lines:
-        flds = line.split()
-        if len(flds) != 2:
-            yield FileFormatError("Format error (> 2 fields) in " + vfilename)
-            return
+        flds = line.split(maxsplit=1)
         if len(flds[0]) != 64:
             yield FileFormatError("Format error (bad digest) in " + vfilename)
             return
@@ -119,7 +116,10 @@ class BagIt(FileFormat):
 
         pfx = dname + "data/"
         lpfx = len(pfx)
-        for zfn in zfil.namelist():
+        for zfi in zfil.infolist():
+            if zfi.is_dir():
+                continue
+            zfn = zfi.filename
             if zfn[:lpfx] != pfx or len(zfn) == lpfx:
                 continue
             rfn = zfn[len(dname):]
