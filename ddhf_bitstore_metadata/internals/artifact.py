@@ -50,14 +50,20 @@ class Artifact():
         self.artifact = None
         self.zipfile = None
         self.octets = None
+        self.length = None
 
     def open_artifact(self, file=None):
         ''' Open the artifact '''
         if self.artifact is not None:
             return
         self.artifact = file
-        length = os.fstat(file.fileno()).st_size
-        self.octets = mmap.mmap(file.fileno(), length, flags=mmap.MAP_PRIVATE, prot=mmap.PROT_READ)
+        self.length = os.fstat(file.fileno()).st_size
+        self.octets = mmap.mmap(
+            file.fileno(),
+            self.length,
+            flags=mmap.MAP_PRIVATE,
+            prot=mmap.PROT_READ
+        )
 
     def open_bagit(self):
         ''' Open Zip/Bagit file '''

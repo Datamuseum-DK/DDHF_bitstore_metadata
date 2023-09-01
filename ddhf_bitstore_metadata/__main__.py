@@ -66,6 +66,14 @@ def main():
             exit_status = 1
             continue
 
+        # We do not insist on certain fields
+        bitstore = getattr(mdi, "BitStore", None)
+        if bitstore:
+            for fldname in ("Size", "Ident", "Digest",):
+                fld = getattr(bitstore, fldname, None)
+                if fld:
+                    fld.mandatory = False
+
         expected_artifact = ""
         if filename[-5:] == ".meta":
             expected_artifact = filename[:-5]
@@ -74,16 +82,12 @@ def main():
                 i = internals.Artifact(mdi)
                 i.open_artifact(file)
                 mdi.add_accessor(i)
+                if bitstore and bitstore.Size.val is None:
+                    bitstore.Size.val = str(i.length)
             except FileNotFoundError:
                 pass
 
-        # We do not insist on certain fields
-        bitstore = getattr(mdi, "BitStore", None)
-        if bitstore:
-            for fldname in ("Size", "Ident", "Digest",):
-                fld = getattr(bitstore, fldname, None)
-                if fld:
-                    fld.mandatory = False
+            
 
         for err in mdi.litany():
             if not mentioned:
