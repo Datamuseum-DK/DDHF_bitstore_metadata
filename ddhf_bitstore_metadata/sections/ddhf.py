@@ -71,6 +71,7 @@ KEYWORDS = {
     "COMPANY/DATA_INFORM": "",
     "COMPANY/DC": "",
     "COMPANY/DDC": "",
+    "COMPANY/DEC/VAX": "",
     "COMPANY/DSB": "",
     "COMPANY/DSI": "",
     "COMPANY/ELLIOTT_AUTOMATION": "",
