@@ -36,6 +36,38 @@ from ddhf_bitstore_metadata.internals.fields import Field, EnumField
 from ddhf_bitstore_metadata.internals.section import Section
 from ddhf_bitstore_metadata.internals import rcsl
 
+LEGAL_MEDIA_TYPES = {
+    '8mm "Exabyte" magtape',
+    '5-hole paper tape',
+    '8-hole paper tape',
+    'IBM 2315 Disk Cartridge',
+    '8" Floppy Disk',
+    '5¼" Floppy Disk',
+    '3½" Floppy Disk',
+    '½" Magnetic Tape',
+    'Integrated Circuit',
+    'ST506 Disk',
+    'SCSI Disk',
+    'ATA Disk',
+    'Mini-Cassette',
+    '¼" cartridge magtape',
+    '⅛" cartridge magtape',
+    'LTO cartridge magtape',
+    '4mm DAT magtape',
+}
+
+LEGAL_MEDIA_FORMATS = (
+    'ASCII',
+    'ASCII_EVEN',
+    'ASCII_ODD',
+    'BINARY',
+    'GIERTEXT',
+    'IMAGEDISK',
+    'KRYOFLUX',
+    'SIMH-TAP',
+    'TAR',
+)
+
 class Geometry(Field):
     '''
     Layout of random-access media
@@ -97,41 +129,13 @@ class Media(Section):
         self += EnumField(
             "Type",
             mandatory=True,
-            legal_values={
-                '8mm "Exabyte" magtape',
-                '5-hole paper tape',
-                '8-hole paper tape',
-                'IBM 2315 Disk Cartridge',
-                '8" Floppy Disk',
-                '5¼" Floppy Disk',
-                '3½" Floppy Disk',
-		'½" Magnetic Tape',
-                'Integrated Circuit',
-                'ST506 Disk',
-                'SCSI Disk',
-                'ATA Disk',
-                'Mini-Cassette',
-                '¼" cartridge magtape',
-                '⅛" cartridge magtape',
-                'LTO cartridge magtape',
-                '4mm DAT magtape',
-            },
+            legal_values=LEGAL_MEDIA_TYPES,
         )
         self += Field("Date")
         self += Field("Model")
         self += Field("Serial")
         self += Field("Description", single=False)
-        self.acceptable_formats(
-            'ASCII',
-            'ASCII_EVEN',
-            'ASCII_ODD',
-            'BINARY',
-            'GIERTEXT',
-            'IMAGEDISK',
-            'KRYOFLUX',
-            'SIMH-TAP',
-            'TAR',
-        )
+        self.acceptable_formats(*LEGAL_MEDIA_FORMATS)
 
     def litany(self):
         fmt = self.metadata.BitStore.Format.val
