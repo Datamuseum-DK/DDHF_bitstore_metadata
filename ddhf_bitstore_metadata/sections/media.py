@@ -99,6 +99,7 @@ class Media(Section):
             mandatory=True,
             legal_values={
                 '8mm "Exabyte" magtape',
+                '5-hole paper tape',
                 '8-hole paper tape',
                 'IBM 2315 Disk Cartridge',
                 '8" Floppy Disk',

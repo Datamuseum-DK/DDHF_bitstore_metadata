@@ -149,6 +149,7 @@ KEYWORDS = {
     "DANKORT": "",
     "DASK": "",
     "DASK/DOCS": "",
+    "DASK/SW": "Software & hulstrimler",
     "DASK/LIBRARY": "",
     "DATALOGI": "",
     "DATALÆRE": "",
