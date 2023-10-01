@@ -60,6 +60,7 @@ LEGAL_MEDIA_FORMATS = (
     'ASCII',
     'ASCII_EVEN',
     'ASCII_ODD',
+    'BAGIT',
     'BINARY',
     'GIERTEXT',
     'IMAGEDISK',
