@@ -169,6 +169,7 @@ KEYWORDS = {
     "DATALÆRE": "",
     "DDE": "",
     "DDE/ID-7000": "",
+    "DDE/IPC-1": "",
     "DDE/MARKETING": "",
     "DDE/SPC-1": "",
     "DDE/SUPERMAX": "",
