@@ -36,6 +36,7 @@ from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat
 
 from ddhf_bitstore_metadata.formats.imagedisk import ImageDisk
 from ddhf_bitstore_metadata.formats.bagit import BagIt
+from ddhf_bitstore_metadata.formats.wav import Wav
 
 class Ascii(FileFormat):
     ''' ... '''
@@ -103,6 +104,7 @@ class Fileformats():
         'PNG': PNG,
         'SIMH-TAP': SimhTap,
         'TAR': Tar,
+        'WAV': Wav,
     }
 
     def __contains__(self, what):
