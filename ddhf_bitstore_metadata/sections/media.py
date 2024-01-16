@@ -45,6 +45,7 @@ LEGAL_MEDIA_TYPES = {
     '8-hole paper tape',
     '8mm "Exabyte" magtape',
     'ATA Disk',
+    'Cassette Tape',
     'CDC Disc Pack',
     'IBM 2315 Disk Cartridge',
     'Integrated Circuit',
@@ -68,6 +69,7 @@ LEGAL_MEDIA_FORMATS = (
     'KRYOFLUX',
     'SIMH-TAP',
     'TAR',
+    'WAV',
 )
 
 class Geometry(Field):
