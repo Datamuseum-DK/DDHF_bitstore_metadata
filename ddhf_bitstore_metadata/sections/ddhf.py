@@ -347,6 +347,7 @@ KEYWORDS = {
     "RC/RC8000/TEST": "",
     "RC/RC850": "",
     "RC/RC850/CPM": "",
+    "RC/RC850/SW": "",
     "RC/RC890": "",
     "RC/RC900": "",
     "RC/RC9000": "",
