@@ -39,6 +39,7 @@ RCSLS = [
     ["31", "D", ],
     ["42", "I", ],
     ["43", "GL", ],
+    ["43", "R", ],
     ["43", "RI", ],
     ["44", "D", ],
     ["44", "RT", ],
@@ -65,8 +66,8 @@ class GSLField(fields.Field):
 class RCSLField(fields.Field):
     ''' RegneCentralen System Library numbers '''
 
-    def __init__(self, **kwargs):
-        super().__init__("RCSL", **kwargs)
+    def __init__(self, single=False, **kwargs):
+        super().__init__("RCSL", single=False, **kwargs)
 
     def validate(self):
         yield from super().validate()
@@ -74,15 +75,15 @@ class RCSLField(fields.Field):
             if len(line.text[1:].split()) > 1:
                 yield self.complaint("White-space not allowed", line)
                 return
-            parts = self.val.split('-')
+            parts = line.text.strip().split('-')
             if len(parts) != 4 or parts[0] != "RCSL":
-                yield self.complaint('RCSL must have from RCSL-#-$-#', line)
+                yield self.complaint('RCSL must have form RCSL-#-$-#', line)
                 return
 
             try:
                 int(parts[3], 10)
             except ValueError:
-                yield self.complaint('RCSL must have from RCSL-#-$-#', line)
+                yield self.complaint('RCSL must have form RCSL-#-$-#', line)
                 return
 
             if not parts[1:3] in RCSLS:
