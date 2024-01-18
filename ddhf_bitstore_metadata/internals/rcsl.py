@@ -33,6 +33,7 @@
 from ddhf_bitstore_metadata.internals import fields
 
 RCSLS = [
+    ["28", "D", ],
     ["30", "M", ],
     ["31", "D", ],
     ["42", "I", ],
