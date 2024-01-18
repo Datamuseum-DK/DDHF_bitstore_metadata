@@ -133,6 +133,7 @@ KEYWORDS = {
     "COMPANY/RISØ": "",
     "COMPANY/SAMFUNDSDATA": "",
     "COMPANY/SAS": "",
+    "COMPANY/SCMETRIC/8": "",
     "COMPANY/SCMETRIC/MICROMUX": "",
     "COMPANY/SDC": "",
     "COMPANY/SGI/DISK": "",
