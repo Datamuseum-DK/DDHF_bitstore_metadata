@@ -103,6 +103,7 @@ KEYWORDS = {
     "COMPANY/JTAS": "",
     "COMPANY/KTAS": "",
     "COMPANY/KVIK_DATA": "",
+    "COMPANY/LAMBDA/8300": "",
     "COMPANY/LEC": "",
     "COMPANY/LFU": "",
     "COMPANY/MABUSE_DATA": "",
