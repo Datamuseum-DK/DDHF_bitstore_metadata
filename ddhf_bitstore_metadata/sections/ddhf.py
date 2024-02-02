@@ -101,6 +101,7 @@ KEYWORDS = {
     "COMPANY/ICL/COMET": "",
     "COMPANY/ICL/COMET/TAPE": "",
     "COMPANY/INTEL/ISIS": "Intel ISIS udviklingssystem",
+    "COMPANY/JDC/Q1": "",
     "COMPANY/JTAS": "",
     "COMPANY/KTAS": "",
     "COMPANY/KVIK_DATA": "",
