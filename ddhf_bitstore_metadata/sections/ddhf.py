@@ -397,7 +397,7 @@ if False:
             print("Unsorted Keywords", i, j)
     exit(2)
 
-for year in range(1958, 2024):
+for year in range(1958, 2025):
     KEYWORDS["EVENT/%4d" % year] = "Events in %d" % year
 
 for i in rcsl.RCSLS:
