@@ -254,6 +254,7 @@ KEYWORDS = {
     "OS/MS-DOS": "",
     "OS/MS-DOS/DRIVERS": "",
     "OS/UNIFLEX": "",
+    "OS/UNIX/TRAINING": "",
     "OS/XDOS": "",
     "PERIODICALS/CIRCUIT": "",
     "PERIODICALS/DATALÆRE": "",
