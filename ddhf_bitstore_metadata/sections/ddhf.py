@@ -367,6 +367,7 @@ KEYWORDS = {
     "RC/RC9000/DISK": "",
     "RC/RC911": "",
     "RC/RCNET": "",
+    "RC/RCTELEDATA": "",
     "RC/RC_DISKETTE_1100": "",
     "SCIENCE/ASTRONOMY": "",
     "SCIENCE/CHEMISTRY": "",
