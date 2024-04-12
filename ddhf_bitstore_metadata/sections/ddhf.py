@@ -387,6 +387,7 @@ KEYWORDS = {
     "SELVBYG": "",
     "SINCLAIR/ZX80": "",
     "SOCIETY": "",
+    "STANDARD/PCCARD": "",
     "STORAGE": "",
     "SUPERCOMPUTING": "",
     "UNIX": "",
