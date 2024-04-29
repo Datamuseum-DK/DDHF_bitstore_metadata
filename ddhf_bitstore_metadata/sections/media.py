@@ -45,8 +45,8 @@ LEGAL_MEDIA_TYPES = {
     '8-hole paper tape',
     '8mm "Exabyte" magtape',
     'ATA Disk',
-    'Cassette Tape',
     'CDC Disc Pack',
+    'Cassette Tape',
     'IBM 2315 Disk Cartridge',
     'Integrated Circuit',
     'LTO cartridge magtape',
@@ -72,6 +72,69 @@ LEGAL_MEDIA_FORMATS = (
     'WAV',
 )
 
+class GeometryException(Exception):
+    ''' ... '''
+
+class GeometryEntry():
+    ''' Parse a Geometry field '''
+
+    def __init__(self, arg):
+        self.input = arg.split()
+        self.dims = {'c': (0,0), 'h': (0,0), 's': (1,1), 'b': (0,0)}
+        for i in self.input:
+            d = self.dims.get(i[-1])
+            if d is None:
+                raise GeometryException("Dimension '%s' unknown" % i[-1])
+            j = i[:-1].split('…')
+            if len(j) == 1:
+                try:
+                    x = int(j[0])
+                except Exception as err:
+                    raise GeometryException("Cannot grok number '%s'" % j[0]) from err
+                self.dims[i[-1]] = (d[0], d[0] + x - 1)
+            else:
+                try:
+                    x = int(j[0])
+                except Exception as err:
+                    raise GeometryException("Cannot grok number '%s'" % j[0]) from err
+                try:
+                    y = int(j[1])
+                except Exception as err:
+                    raise GeometryException("Cannot grok number '%s'" % j[1]) from err
+                self.dims[i[-1]] = (x, y)
+
+    def __repr__(self):
+        retval = []
+        for dim in 'chsb':
+            d = self.dims[dim]
+            if d[0] == d[1]:
+                continue
+            if dim == 's' and d[0] == 1:
+                retval.append("%d" % d[1] + dim)
+            elif dim != 's' and d[0] == 0:
+                retval.append("%d" % (1 + d[1]) + dim)
+            else:
+                retval.append("%d…%d" % d + dim)
+        return ' '.join(retval)
+
+    def __len__(self):
+        retval = 1
+        for j in self.dims.values():
+            retval *= (1 + j[1] - j[0])
+        return retval
+
+class ParseGeometry():
+    ''' Parse a Geometry line '''
+
+    def __init__(self, arg):
+        self.parts = [GeometryEntry(x) for x in arg.split(',')]
+
+    def __repr__(self):
+        return ", ".join(str(x) for x in self.parts)
+
+    def __len__(self):
+        return sum(len(x) for x in self.parts)
+
 class Geometry(Field):
     '''
     Layout of random-access media
@@ -93,33 +156,33 @@ class Geometry(Field):
 
         2h 26s 128b, 76c 2h 15s 256b
 
+    By default the first index is zero, except for 's' where it is one
+    for compatibility with traditional floppy disk conventions.
+
+        2h means heads are numbered 0 & 1
+        5s means sectors are numbered 1,2,3,4&5
+
+    Instead of integers, an integer can be specified:
+
+        0…4s means sectors are numbered 0,1,2,3&4
+
     '''
 
     def validate(self):
         yield from super().validate()
-        siz = 0
 
-        for part in self.val.split(','):
-            zsiz = 1
-            i = part.split()
-            suf = 'chsb'
-            while i:
-                elem = i.pop(0)
-                count = int(elem[:-1])
-                if count <= 0:
-                    yield self.complaint("count '%s' <= 0" % elem)
-                    return
-                zsiz *= count
-                where = suf.find(elem[-1])
-                if where < 0:
-                    yield self.complaint("suffix letter '%s' unknown or out of order" % elem[-1])
-                suf = suf[where + 1:]
-            siz += zsiz
+        try:
+            pp = ParseGeometry(self.val)
+        except GeometryException as err:
+            yield self.complaint("Geometry: " + err.args[0])
+            return
         bitstore_size = self.sect.metadata.BitStore.Size.val
         if bitstore_size is not None:
             bsz = int(bitstore_size)
-            if siz != bsz:
-                yield self.complaint("Geometry (%d) disagrees with Bitstore.Size (%d)" % (siz, bsz))
+            if len(pp) != bsz:
+                yield self.complaint(
+                    "Geometry (%d) disagrees with Bitstore.Size (%d)" % (len(pp), bsz)
+                )
 
 class Media(Section):
     '''
