@@ -117,6 +117,12 @@ class GeometryEntry():
                 retval.append("%d…%d" % d + dim)
         return ' '.join(retval)
 
+    def __iter__(self):
+        for c in range(self.dims["c"][0], self.dims["c"][1] + 1):
+            for h in range(self.dims["h"][0], self.dims["h"][1] + 1):
+                for s in range(self.dims["s"][0], self.dims["s"][1] + 1):
+                    yield ((c, h, s), self.dims["b"][1] + 1)
+
     def __len__(self):
         retval = 1
         for j in self.dims.values():
@@ -134,6 +140,10 @@ class ParseGeometry():
 
     def __len__(self):
         return sum(len(x) for x in self.parts)
+
+    def __iter__(self):
+        for i in self.parts:
+            yield from i
 
 class Geometry(Field):
     '''
@@ -172,16 +182,16 @@ class Geometry(Field):
         yield from super().validate()
 
         try:
-            pp = ParseGeometry(self.val)
+            self.geom = ParseGeometry(self.val)
         except GeometryException as err:
             yield self.complaint("Geometry: " + err.args[0])
             return
         bitstore_size = self.sect.metadata.BitStore.Size.val
         if bitstore_size is not None:
             bsz = int(bitstore_size)
-            if len(pp) != bsz:
+            if len(self.geom) != bsz:
                 yield self.complaint(
-                    "Geometry (%d) disagrees with Bitstore.Size (%d)" % (len(pp), bsz)
+                    "Geometry (%d) disagrees with Bitstore.Size (%d)" % (len(self.geom), bsz)
                 )
 
 class Media(Section):
