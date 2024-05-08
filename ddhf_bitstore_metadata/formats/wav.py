@@ -91,7 +91,7 @@ class Wav(FileFormat):
 
     EXTENSION = "wav"
 
-    def validate(self):
+    def validate(self, **kwargs):
 
         self.need(16)
 

@@ -43,7 +43,7 @@ from ddhf_bitstore_metadata.internals.file_formats import FileFormats
 class Access(Field):
     ''' (public|private|restricted|gone)[/(public|private|restricted|gone)] '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if len(self.val.split()) > 1:
             yield self.complaint('White-space not allowed')
@@ -78,7 +78,7 @@ class Access(Field):
 class Size(Field):
     ''' Must be a decimal number '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not self.val.isascii() or not self.val.isdigit():
             yield self.complaint('Not a number')
@@ -92,7 +92,7 @@ class Size(Field):
 class Filename(Field):
     ''' Must be sensible '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not re.match('^[a-zæøåA-ZÆØÅ0-9_][a-zæøåA-ZÆØÅ0-9_.-]*$', self.val):
             yield self.complaint('Bad filename (illegal characters)')
@@ -100,7 +100,7 @@ class Filename(Field):
 class Ident(Field):
     ''' Must be 8 digits with optional generation number '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not self.val.isascii() or len(self.val.split()) != 1:
             yield self.complaint('Not a valid identifier')
@@ -127,7 +127,7 @@ class Ident(Field):
 class Digest(Field):
     ''' sha256:[0-9a-f]{64} '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not re.match('^sha256:[0-9a-f]{64}$', self.val):
             yield self.complaint('Bad digest')
@@ -135,7 +135,7 @@ class Digest(Field):
 class LastEdit(Field):
     ''' Must be YYYYMMDD name '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not re.match('^20[012][0-9][012][0-9][0-3][0-9]', self.val):
             yield self.complaint('Invalid date')
@@ -155,7 +155,7 @@ class LastEdit(Field):
 class Format(EnumField):
     ''' Must match extension '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         want_ext = FileFormats.get_extension(self.val)
         fname = self.sect.Filename

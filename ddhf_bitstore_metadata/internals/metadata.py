@@ -90,12 +90,12 @@ class MetadataBase():
         assert isinstance(accessor, artifact.Artifact)
         self.artifact = accessor
 
-    def validate(self):
+    def validate(self, **kwargs):
         ''' Validate metadata '''
-        for i in self.litany():
+        for i in self.litany(**kwargs):
             raise i
 
-    def litany(self):
+    def litany(self, **kwargs):
         ''' Yield a litany of exceptions '''
         for mandatory in (
             "BitStore",
@@ -108,10 +108,10 @@ class MetadataBase():
                 "Incompatible content sections (%s)" % str(self.valid_formats_sections)
             )
         for sect in self.sections.values():
-            yield from sect.litany()
+            yield from sect.litany(**kwargs)
 
         if self.artifact:
-            yield from FileFormats.litany(self)
+            yield from FileFormats.litany(self, **kwargs)
 
     def serialize(self):
         for sect in self.sections.values():

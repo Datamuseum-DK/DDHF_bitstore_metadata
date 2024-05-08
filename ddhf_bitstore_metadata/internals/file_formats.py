@@ -114,11 +114,11 @@ class Fileformats():
         ''' Appropriate extension for this format '''
         return self.OK_LIST[what].EXTENSION
 
-    def litany(self, mdi):
+    def litany(self, mdi, **kwargs):
         ''' Yield a litany of complaints '''
         assert mdi.artifact
         fmt = mdi.BitStore.Format.val
         # fmt = "BAGIT"
-        yield from self.OK_LIST[fmt](mdi).litany()
+        yield from self.OK_LIST[fmt](mdi).litany(**kwargs)
 
 FileFormats = Fileformats()

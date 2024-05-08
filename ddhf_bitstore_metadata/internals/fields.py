@@ -62,7 +62,7 @@ class Field():
             line=where.text,
         )
 
-    def litany(self):
+    def litany(self, **kwargs):
         ''' Yield a litany of exceptions '''
         if self.mandatory is True and self.stanza is None:
             yield self.complaint("Missing mandatory field " + self.full_name)
@@ -74,9 +74,9 @@ class Field():
             for i in self.stanza.lines:
                 if i.text != "\t" and i.text[-1].isspace():
                     yield self.complaint("Trailing white space", i)
-            yield from self.validate()
+            yield from self.validate(**kwargs)
 
-    def validate(self):
+    def validate(self, **kwargs):
         ''' By default validation passes '''
         return
         yield self
@@ -117,7 +117,7 @@ class EnumField(Field):
         super().__init__(name, **kwargs)
         self.legal_values = legal_values
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         for line in self.stanza:
             if line.text[1:] not in self.legal_values:

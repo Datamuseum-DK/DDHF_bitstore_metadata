@@ -52,14 +52,14 @@ class FileFormat():
         if length > len(self.octets):
             raise ShortFile("Artifact (at least) %d bytes too short" % (length - len(self.octets)))
 
-    def validate(self):
+    def validate(self, **kwargs):
         ''' Validate file format '''
         if False:
             yield FileFormatError("(FileFormat Not Checked)")
 
-    def litany(self):
+    def litany(self, **kwargs):
         ''' Yield the litany of faults found '''
         try:
-            yield from self.validate()
+            yield from self.validate(**kwargs)
         except ShortFile as err:
             yield err

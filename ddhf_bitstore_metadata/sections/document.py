@@ -41,7 +41,7 @@ from ddhf_bitstore_metadata.internals import rcsl
 class ISSN(Field):
     ''' ISSN - International Standard Serial Number '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if re.match('^[0-9]{4}-[0-9]{3}[0-9X]$', self.val):
             csum = 0
@@ -66,7 +66,7 @@ class ISSN(Field):
 class ISBN(Field):
     ''' International Standard Book Number '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if re.match('^[0-9]{9}[0-9X]$', self.val):
             csum = 0

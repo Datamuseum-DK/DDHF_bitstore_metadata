@@ -178,7 +178,7 @@ class Geometry(Field):
 
     '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
 
         try:
@@ -214,7 +214,7 @@ class Media(Section):
         self += Field("Description", single=False)
         self.acceptable_formats(*LEGAL_MEDIA_FORMATS)
 
-    def litany(self):
+    def litany(self, **kwargs):
         fmt = self.metadata.BitStore.Format.val
         if fmt in (
             "IMAGEDISK",
@@ -223,4 +223,4 @@ class Media(Section):
                 yield self.Geometry.complaint(
                     "Media.Geometry not allowed for %s format" % fmt
                 )
-        yield from super().litany()
+        yield from super().litany(**kwargs)

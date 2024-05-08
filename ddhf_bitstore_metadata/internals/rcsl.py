@@ -59,7 +59,7 @@ class GSLField(fields.Field):
     def __init__(self, **kwargs):
         super().__init__("GSL", **kwargs)
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not self.sect.metadata.DDHF.has_keyword("GSL"):
             yield self.complaint('DDHF.Keywords lack "GSL"')
@@ -70,7 +70,7 @@ class RCSLField(fields.Field):
     def __init__(self, single=False, **kwargs):
         super().__init__("RCSL", single=False, **kwargs)
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         for line in self.stanza:
             if len(line.text[1:].split()) > 1:

@@ -84,7 +84,7 @@ class AlbumDescriptionField(fields.Field):
             imgnm = pfx + fmt % i + "." + start[-1]
             yield from self.single_image(line, imgnm)
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not self.images:
             for line in self.stanza:

@@ -39,7 +39,7 @@ class ImageDisk(FileFormat):
 
     EXTENSION = "imd"
 
-    def validate(self):
+    def validate(self, **kwargs):
         self.need(4)
         if self.octets[:4] != b'IMD ':
             yield FileFormatError("No 'IMD ' magic marker")

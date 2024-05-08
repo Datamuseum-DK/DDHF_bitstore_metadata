@@ -109,15 +109,15 @@ class Section():
             stanza.complain("No such field in section " + self.name)
         field.create(stanza)
 
-    def validate(self):
+    def validate(self, **kwargs):
         ''' Validate this section '''
         for fld in self.fields.values():
-            fld.validate_field()
+            fld.validate_field(**kwargs)
 
-    def litany(self):
+    def litany(self, **kwargs):
         ''' Yield a litany of complaints '''
         for fld in self.fields.values():
-            yield from fld.litany()
+            yield from fld.litany(**kwargs)
 
     def serialize(self):
         ''' Serialize in canonical format '''

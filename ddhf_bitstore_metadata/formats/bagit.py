@@ -76,7 +76,7 @@ class BagIt(FileFormat):
 
     EXTENSION = "zip"
 
-    def validate(self):
+    def validate(self, **kwargs):
         try:
             self.mdi.artifact.open_bagit()
         except Exception as err:

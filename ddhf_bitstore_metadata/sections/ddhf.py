@@ -420,7 +420,7 @@ for i in rcsl.RCSLS:
 class KeywordField(EnumField):
     ''' We render keywords as links to the wiki index pages '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         for line in self.stanza:
             if line.text[1:] == "ARTIFACTS":
@@ -430,7 +430,7 @@ class KeywordField(EnumField):
 class GenstandField(Field):
     ''' Reference to REGBASE '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
             yield self.complaint('Not a valid identifier')
@@ -442,7 +442,7 @@ class GenstandField(Field):
 class PresentationField(Field):
     ''' Instructions for presentation facilities '''
 
-    def validate(self):
+    def validate(self, **kwargs):
         yield from super().validate()
         for line in self.stanza:
             fields = line.text.split(maxsplit=1)
