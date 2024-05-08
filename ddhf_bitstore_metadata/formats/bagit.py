@@ -32,6 +32,7 @@
     ============
 '''
 
+import os
 import hashlib
 
 from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat, FileFormatError
@@ -76,7 +77,7 @@ class BagIt(FileFormat):
 
     EXTENSION = "zip"
 
-    def validate(self, **kwargs):
+    def validate(self, cache_bagit_manifest=False, **kwargs):
         try:
             self.mdi.artifact.open_bagit()
         except Exception as err:
@@ -113,6 +114,13 @@ class BagIt(FileFormat):
                         yield FileFormatError("Format error in " + dname + mfn)
                         return
                     yield from validator(lines, dname + mfn, expected_files)
+
+        if cache_bagit_manifest:
+            ident = self.mdi.BitStore.Ident.val.split(":")[0]
+            os.makedirs("_bagit_manifest", exist_ok=True)
+            with open(os.path.join("_bagit_manifest", ident + ".sha256"), "w") as file:
+                for i, j in expected_files.items():
+                    file.write(" ".join((j, ident, i)) + "\n")
 
         pfx = dname + "data/"
         lpfx = len(pfx)
