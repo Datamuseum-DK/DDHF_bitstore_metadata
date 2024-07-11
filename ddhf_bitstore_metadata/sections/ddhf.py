@@ -209,6 +209,7 @@ KEYWORDS = {
     "DDHF/NYHEDSBREV": "Newsletters from Datamuseum.dk",
     "DKUUG": "",
     "DKUUG/DISKS": "",
+    "DKUUG/EUROBSDCON": "",
     "DKUUG/EUUG": "",
     "EDUCATION": "",
     "EDUCATION/ASTRONOMY": "",
