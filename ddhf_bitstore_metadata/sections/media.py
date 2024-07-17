@@ -172,7 +172,7 @@ class Geometry(Field):
         2h means heads are numbered 0 & 1
         5s means sectors are numbered 1,2,3,4&5
 
-    Instead of integers, an integer can be specified:
+    Instead of an integer, a range of integers can be specified:
 
         0…4s means sectors are numbered 0,1,2,3&4
 
@@ -186,6 +186,11 @@ class Geometry(Field):
         except GeometryException as err:
             yield self.complaint("Geometry: " + err.args[0])
             return
+        hds = set(x.dims['h'] for x in self.geom.parts)
+        if len(hds) > 1:
+            yield self.complaint(
+                "Geometry had multiple head-counts (use ranges instead)"
+            )
         bitstore_size = self.sect.metadata.BitStore.Size.val
         if bitstore_size is not None:
             bsz = int(bitstore_size)
