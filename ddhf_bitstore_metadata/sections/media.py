@@ -78,9 +78,9 @@ class GeometryException(Exception):
 class GeometryEntry():
     ''' Parse a Geometry field '''
 
-    def __init__(self, arg):
+    def __init__(self, arg, next_cyl):
         self.input = arg.split()
-        self.dims = {'c': (0,0), 'h': (0,0), 's': (1,1), 'b': (0,0)}
+        self.dims = {'c': (next_cyl,next_cyl), 'h': (0,0), 's': (1,1), 'b': (0,0)}
         for i in self.input:
             d = self.dims.get(i[-1])
             if d is None:
@@ -104,18 +104,7 @@ class GeometryEntry():
                 self.dims[i[-1]] = (x, y)
 
     def __repr__(self):
-        retval = []
-        for dim in 'chsb':
-            d = self.dims[dim]
-            if d[0] == d[1]:
-                continue
-            if dim == 's' and d[0] == 1:
-                retval.append("%d" % d[1] + dim)
-            elif dim != 's' and d[0] == 0:
-                retval.append("%d" % (1 + d[1]) + dim)
-            else:
-                retval.append("%d…%d" % d + dim)
-        return ' '.join(retval)
+        return " ".join(self.input)
 
     def __iter__(self):
         for c in range(self.dims["c"][0], self.dims["c"][1] + 1):
@@ -132,8 +121,16 @@ class GeometryEntry():
 class ParseGeometry():
     ''' Parse a Geometry line '''
 
-    def __init__(self, arg):
-        self.parts = [GeometryEntry(x) for x in arg.split(',')]
+    def __init__(self, arg, tolerant=False):
+        next_cyl = 0
+        self.parts = []
+        j = [i.strip() for i in arg.split(',')]
+        if tolerant and j[0] == "1c 1h 16s 128b" and j[1] == "1c 1h 16s 256b":
+            j[0] = "0…0c 0…0h 16s 128b"
+            j[1] = "0…0c 1…1h 16s 256b"
+        for i in j:
+            self.parts.append(GeometryEntry(i, next_cyl))
+            next_cyl = self.parts[-1].dims['c'][1] + 1
 
     def __repr__(self):
         return ", ".join(str(x) for x in self.parts)
