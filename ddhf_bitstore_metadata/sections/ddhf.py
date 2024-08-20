@@ -98,6 +98,7 @@ KEYWORDS = {
     "COMPANY/GRUNDY/NEWBRAIN": "",
     "COMPANY/GYLDENDAL/SCANDIS": "",
     "COMPANY/HALDOR_TOPSØE": "",
+    "COMPANY/HCØ": "H.C.Ørsteds Institutted på KU.",
     "COMPANY/HERA-DATA": "",
     "COMPANY/HP/120": "",
     "COMPANY/HP/150": "",
