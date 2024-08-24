@@ -438,11 +438,14 @@ KEYWORDS = {
     "UX": "",
 }
 
-if False:
+def main():
     for i, j in zip(KEYWORDS, sorted(KEYWORDS)):
         if i != j:
             print("Unsorted Keywords", i, j)
-    exit(2)
+    return 2
+
+if __name__ == "__main__":
+    main()
 
 for year in range(1958, 2025):
     KEYWORDS["EVENT/%4d" % year] = "Events in %d" % year
@@ -454,9 +457,12 @@ class KeywordField(EnumField):
     ''' We render keywords as links to the wiki index pages '''
 
     def validate(self, **kwargs):
-        yield from super().validate()
         for line in self.stanza:
-            if line.text[1:] == "ARTIFACTS":
+            kw = line.text[1:]
+            if kw not in self.legal_values:
+                if not self.sect.metadata.keyword_proposals_allowed or kw[0] != '*':
+                    yield self.complaint("Unknown DDHF.Keywords (%s)" % kw, where=line)
+            if kw == "ARTIFACTS":
                 if self.sect.Genstand.stanza is None:
                     yield self.complaint('Has DDHF.Keywords "ARTIFACTS" but no DDHF.Genstand', line)
 

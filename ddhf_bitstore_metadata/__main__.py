@@ -38,16 +38,19 @@ from ddhf_bitstore_metadata.sections.ddhf import KEYWORDS
 def main():
     ''' Validate all metadata files given as arguments '''
     sys.argv.pop(0)
-    if sys.argv[0] == '-n':
-        normalize = True
-        sys.argv.pop(0)
-    else:
-        normalize = False
-
-    if sys.argv[0] == '-k':
-        for kw, desc in sorted(KEYWORDS.items()):
-            print(kw, desc)
-        exit(0)
+    normalize = False
+    proposals = False
+    while sys.argv and sys.argv[0][0] == '-':
+        if sys.argv[0] == '-k':
+            for kw, desc in sorted(KEYWORDS.items()):
+                print(kw, desc)
+            return 0
+        if sys.argv[0] == '-n':
+            normalize = not normalize
+            sys.argv.pop(0)
+        if sys.argv[0] == '-p':
+            proposals = not proposals
+            sys.argv.pop(0)
 
     exit_status = 0
     for filename in sys.argv:
@@ -87,7 +90,7 @@ def main():
             except FileNotFoundError:
                 pass
 
-            
+        mdi.allow_keyword_proposals(proposals)
 
         for err in mdi.litany():
             if not mentioned:
@@ -115,5 +118,4 @@ def main():
 
     sys.exit(exit_status)
 
-if __name__ == "__main__":
-    main()
+main()

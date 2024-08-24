@@ -49,6 +49,7 @@ class MetadataBase():
         self.valid_formats_sections = set()
         self.complaints = []
         self.artifact = None
+        self.keyword_proposals_allowed = False
 
         mds = syntax.MetadataSyntax(text)
         for stanza in mds:
@@ -89,6 +90,9 @@ class MetadataBase():
         ''' Add accessor for the artifact '''
         assert isinstance(accessor, artifact.Artifact)
         self.artifact = accessor
+
+    def allow_keyword_proposals(self, bool):
+        self.keyword_proposals_allowed = bool
 
     def validate(self, **kwargs):
         ''' Validate metadata '''
