@@ -406,6 +406,7 @@ KEYWORDS = {
     "RC/RC900": "",
     "RC/RC9000": "",
     "RC/RC9000/DISK": "",
+    "RC/RC9000/TAPE": "",
     "RC/RC911": "",
     "RC/RCNET": "",
     "RC/RCTELEDATA": "",
