@@ -398,6 +398,7 @@ KEYWORDS = {
     "RC/RC8000/OU-BIBLIOTEK": "",
     "RC/RC8000/PAPERTAPE": "",
     "RC/RC8000/SALG": "",
+    "RC/RC8000/SW": "",
     "RC/RC8000/TAPE": "",
     "RC/RC8000/TEST": "",
     "RC/RC850": "",
