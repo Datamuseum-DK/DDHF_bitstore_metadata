@@ -105,6 +105,23 @@ class AlbumDescriptionField(fields.Field):
                 if key not in found:
                     yield self.complaint("Image missing in BAGIT file", line)
 
+    def descriptions(self):
+        spec = None
+        cur = None
+        for line in list(self.stanza):
+            line = line.text.strip()
+            if not line:
+                continue
+            if line[-1] == ':':
+                if spec:
+                    yield spec, cur
+                spec = line[:-1]
+                cur = []
+            elif spec and line:
+                cur.append(line)
+        if spec:
+            yield spec, cur
+
 class Album(Section):
     ''' Album sections '''
 
