@@ -122,11 +122,23 @@ class AlbumDescriptionField(fields.Field):
         if spec:
             yield spec, cur
 
+class AlbumDate(Field):
+    ''' Date pictures taken '''
+
+    def validate(self, **kwargs):
+        yield from super().validate()
+        try:
+            time.strptime(self.val, "%Y%m%d")
+        except ValueError:
+            yield self.complaint('Album.Date should be YYYYMMDD format')
+            return
+
 class Album(Section):
     ''' Album sections '''
 
     def build(self):
         self += fields.Field("Title", mandatory=True)
+        self += AlbumDate("Date")
         self += AlbumDescriptionField("Description", single=False)
         self.acceptable_formats(
             'BAGIT',

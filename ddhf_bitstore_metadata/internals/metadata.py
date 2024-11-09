@@ -68,6 +68,12 @@ class MetadataBase():
                 self.sections[full_sect] = sect
             sect.add_field(stanza)
 
+    def __str__(self):
+        try:
+            return self.BitStore.Ident.val
+        except:
+            return "<BitStoreMetadata>"
+
     def __getattr__(self, key):
         retval = self.sections.get(key)
         if retval is None:
