@@ -122,7 +122,7 @@ class AlbumDescriptionField(fields.Field):
         if spec:
             yield spec, cur
 
-class AlbumDate(Field):
+class AlbumDate(fields.Field):
     ''' Date pictures taken '''
 
     def validate(self, **kwargs):
