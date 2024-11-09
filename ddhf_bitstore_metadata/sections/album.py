@@ -32,6 +32,8 @@
     ==============
 '''
 
+import time
+
 from ddhf_bitstore_metadata.internals import fields
 from ddhf_bitstore_metadata.internals.section import Section
 
