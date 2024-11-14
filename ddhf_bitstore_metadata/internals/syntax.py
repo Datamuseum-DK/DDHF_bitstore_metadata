@@ -31,7 +31,7 @@
    ---------------------------------------------
 '''
 
-from ddhf_bitstore_metadata.internals.exceptions import MetadataSyntaxError
+from ..internals.exceptions import MetadataSyntaxError
 
 class MetadataLine():
     ''' A line of metadata, knows it's own line number '''

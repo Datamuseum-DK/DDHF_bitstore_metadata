@@ -34,14 +34,14 @@
 
 import time
 
-from ddhf_bitstore_metadata.internals.fields import Field
-from ddhf_bitstore_metadata.internals.section import Section
+from ..internals.fields import Field
+from ..internals.section import Section
 
 class EventDate(Field):
     ''' Date of event '''
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         try:
             time.strptime(self.val, "%Y%m%d")
         except ValueError:

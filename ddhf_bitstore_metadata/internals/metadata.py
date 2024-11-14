@@ -31,11 +31,11 @@
    -------------------
 '''
 
-from ddhf_bitstore_metadata.internals import artifact
-from ddhf_bitstore_metadata.internals import section
-from ddhf_bitstore_metadata.internals import exceptions
-from ddhf_bitstore_metadata.internals import syntax
-from ddhf_bitstore_metadata.internals.file_formats import FileFormats
+from ..internals import artifact
+from ..internals import section
+from ..internals import exceptions
+from ..internals import syntax
+from ..internals.file_formats import FileFormats
 
 class MetadataBase():
     '''
@@ -97,8 +97,9 @@ class MetadataBase():
         assert isinstance(accessor, artifact.Artifact)
         self.artifact = accessor
 
-    def allow_keyword_proposals(self, bool):
-        self.keyword_proposals_allowed = bool
+    def allow_keyword_proposals(self, ok):
+        ''' Allow unrecognized keywords '''
+        self.keyword_proposals_allowed = ok
 
     def validate(self, **kwargs):
         ''' Validate metadata '''
@@ -124,6 +125,7 @@ class MetadataBase():
             yield from FileFormats.litany(self, **kwargs)
 
     def serialize(self):
+        ''' yield the metadata on canonical text-form '''
         for sect in self.sections.values():
             yield from sect.serialize()
 
@@ -142,4 +144,3 @@ class Metadata(MetadataBase):
             i = artifact.Artifact(self)
             i.open_artifact(open(artifact_file, "rb"))
             self.add_accessor(i)
-

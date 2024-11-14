@@ -30,10 +30,10 @@
     The internal workings of the ddh_metadata package
 '''
 
-from ddhf_bitstore_metadata.internals.exceptions import *
-from ddhf_bitstore_metadata.internals.fields import *
-from ddhf_bitstore_metadata.internals.section import Section
-from ddhf_bitstore_metadata.internals.metadata import Metadata
-from ddhf_bitstore_metadata.internals import syntax
-from ddhf_bitstore_metadata.internals.artifact import Artifact
-from ddhf_bitstore_metadata.internals.file_formats import FileFormats
+from ..internals.exceptions import *
+from ..internals.fields import *
+from ..internals.section import Section
+from ..internals.metadata import Metadata
+from ..internals import syntax
+from ..internals.artifact import Artifact
+from ..internals.file_formats import FileFormats

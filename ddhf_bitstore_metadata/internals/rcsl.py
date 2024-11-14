@@ -30,7 +30,7 @@
    RCSL fields
 '''
 
-from ddhf_bitstore_metadata.internals import fields
+from ..internals import fields
 
 RCSLS = [
     ["21", "M", ],
@@ -65,7 +65,7 @@ class GSLField(fields.Field):
         super().__init__("GSL", **kwargs)
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         if not self.sect.metadata.DDHF.has_keyword("GSL"):
             yield self.complaint('DDHF.Keywords lack "GSL"')
 
@@ -76,7 +76,7 @@ class RCSLField(fields.Field):
         super().__init__("RCSL", single=False, **kwargs)
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         for line in self.stanza:
             if len(line.text[1:].split()) > 1:
                 yield self.complaint("White-space not allowed", line)

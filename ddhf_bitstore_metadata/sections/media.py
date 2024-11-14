@@ -32,9 +32,9 @@
     ===================
 '''
 
-from ddhf_bitstore_metadata.internals.fields import Field, EnumField
-from ddhf_bitstore_metadata.internals.section import Section
-from ddhf_bitstore_metadata.internals import rcsl
+from ..internals.fields import Field, EnumField
+from ..internals.section import Section
+from ..internals import rcsl
 
 LEGAL_MEDIA_TYPES = {
     '3½" Floppy Disk',
@@ -175,8 +175,12 @@ class Geometry(Field):
 
     '''
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.geom = None
+
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
 
         try:
             self.geom = ParseGeometry(self.val)

@@ -34,8 +34,8 @@
 
 import time
 
-from ddhf_bitstore_metadata.internals import fields
-from ddhf_bitstore_metadata.internals.section import Section
+from ..internals import fields
+from ..internals.section import Section
 
 
 class AlbumDescriptionField(fields.Field):
@@ -87,7 +87,7 @@ class AlbumDescriptionField(fields.Field):
             yield from self.single_image(line, imgnm)
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         if not self.images:
             for line in self.stanza:
                 if line.text[-1] == ':':
@@ -108,6 +108,7 @@ class AlbumDescriptionField(fields.Field):
                     yield self.complaint("Image missing in BAGIT file", line)
 
     def descriptions(self):
+        ''' Iterate (image_filename, description) '''
         spec = None
         cur = None
         for line in list(self.stanza):
@@ -128,12 +129,11 @@ class AlbumDate(fields.Field):
     ''' Date pictures taken '''
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         try:
             time.strptime(self.val, "%Y%m%d")
         except ValueError:
             yield self.complaint('Album.Date should be YYYYMMDD format')
-            return
 
 class Album(Section):
     ''' Album sections '''

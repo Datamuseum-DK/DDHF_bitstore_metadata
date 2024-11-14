@@ -32,9 +32,9 @@
     =============
 '''
 
-from ddhf_bitstore_metadata.internals.fields import Field, EnumField
-from ddhf_bitstore_metadata.internals.section import Section
-from ddhf_bitstore_metadata.internals import rcsl
+from ..internals.fields import Field, EnumField
+from ..internals.section import Section
+from ..internals import rcsl
 
 KEYWORDS = {
     "ABC80": "FACIT ABC80",
@@ -449,6 +449,7 @@ KEYWORDS = {
 }
 
 def main():
+    ''' Warn about keywords out of order '''
     for i, j in zip(KEYWORDS, sorted(KEYWORDS)):
         if i != j:
             print("Unsorted Keywords", i, j)
@@ -457,11 +458,15 @@ def main():
 if __name__ == "__main__":
     main()
 
-for year in range(1958, 2025):
-    KEYWORDS["EVENT/%4d" % year] = "Events in %d" % year
+def genkw():
+    ''' Generated keywords '''
+    for year in range(1958, 2025):
+        KEYWORDS["EVENT/%4d" % year] = "Events in %d" % year
 
-for i in rcsl.RCSLS:
-    KEYWORDS["/".join(["RCSL"] + i)] = "Artifacts in this RCSL series"
+    for i in rcsl.RCSLS:
+        KEYWORDS["/".join(["RCSL"] + i)] = "Artifacts in this RCSL series"
+
+genkw()
 
 class KeywordField(EnumField):
     ''' We render keywords as links to the wiki index pages '''
@@ -480,7 +485,7 @@ class GenstandField(Field):
     ''' Reference to REGBASE '''
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
             yield self.complaint('Not a valid identifier')
         elif self.val[0] != '1':
@@ -492,7 +497,7 @@ class PresentationField(Field):
     ''' Instructions for presentation facilities '''
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         for line in self.stanza:
             fields = line.text.split(maxsplit=1)
             if fields[0] not in (

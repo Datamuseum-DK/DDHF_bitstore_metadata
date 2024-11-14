@@ -32,7 +32,7 @@
     =====================
 '''
 
-from ddhf_bitstore_metadata.internals.exceptions import FileFormatError, ShortFile
+from ..internals.exceptions import FileFormatError, ShortFile
 
 
 class FileFormat():
@@ -52,10 +52,10 @@ class FileFormat():
         if length > len(self.octets):
             raise ShortFile("Artifact (at least) %d bytes too short" % (length - len(self.octets)))
 
-    def validate(self, **kwargs):
+    def validate(self, **_kwargs):
         ''' Validate file format '''
-        if False:
-            yield FileFormatError("(FileFormat Not Checked)")
+        return
+        yield FileFormatError("(FileFormat Not Checked)")
 
     def litany(self, **kwargs):
         ''' Yield the litany of faults found '''

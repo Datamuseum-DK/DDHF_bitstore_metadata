@@ -32,8 +32,8 @@
     ==============
 '''
 
-from ddhf_bitstore_metadata.internals.fields import Field
-from ddhf_bitstore_metadata.internals.section import Section
+from ..internals.fields import Field
+from ..internals.section import Section
 
 class Video(Section):
     '''

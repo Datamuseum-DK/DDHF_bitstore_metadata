@@ -33,7 +33,7 @@
 
 import importlib
 
-from ddhf_bitstore_metadata.internals import fields
+from ..internals import fields
 
 class SectionNotFound(Exception):
     ''' ... '''

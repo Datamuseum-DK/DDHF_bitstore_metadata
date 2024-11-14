@@ -32,7 +32,7 @@
     ================
 '''
 
-from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat, FileFormatError
+from ..internals.fileformatclass import FileFormat, FileFormatError
 
 class ImageDisk(FileFormat):
     ''' ... '''
@@ -40,6 +40,7 @@ class ImageDisk(FileFormat):
     EXTENSION = "imd"
 
     def validate(self, **kwargs):
+        yield from super().validate(**kwargs)
         self.need(4)
         if self.octets[:4] != b'IMD ':
             yield FileFormatError("No 'IMD ' magic marker")
@@ -49,7 +50,7 @@ class ImageDisk(FileFormat):
             yield FileFormatError("0x1A byte found")
             return
         try:
-            header = self.octets[:ptr].decode('ascii')
+            _header = self.octets[:ptr].decode('ascii')
         except UnicodeDecodeError:
             yield FileFormatError("Illegal chars in header text")
             return
@@ -99,7 +100,7 @@ class ImageDisk(FileFormat):
                 return
 
             self.need(ptr + nsect)
-            sec_num_map = self.octets[ptr:ptr + nsect]
+            _sec_num_map = self.octets[ptr:ptr + nsect]
             ptr += nsect
             # can we check sec_num_map ?
 
@@ -116,7 +117,7 @@ class ImageDisk(FileFormat):
                 # can we check headmap ?
 
             seclen = 128 << sectsize
-            for secno in range(1, nsect + 1):
+            for _secno in range(1, nsect + 1):
                 self.need(ptr + 1)
                 state = self.octets[ptr]
                 ptr += 1

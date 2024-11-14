@@ -32,11 +32,11 @@
     ==================================================================
 '''
 
-from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat
+from ..internals.fileformatclass import FileFormat
 
-from ddhf_bitstore_metadata.formats.imagedisk import ImageDisk
-from ddhf_bitstore_metadata.formats.bagit import BagIt
-from ddhf_bitstore_metadata.formats.wav import Wav
+from ..formats.imagedisk import ImageDisk
+from ..formats.bagit import BagIt
+from ..formats.wav import Wav
 
 class Ascii(FileFormat):
     ''' ... '''

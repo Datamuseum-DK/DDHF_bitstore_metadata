@@ -32,7 +32,7 @@
 
 import struct
 
-from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat, FileFormatError
+from ..internals.fileformatclass import FileFormat, FileFormatError
 
 VALID_FORMATS = (1, )
 VALID_CHANNELS = (1, 2,)
@@ -92,6 +92,7 @@ class Wav(FileFormat):
     EXTENSION = "wav"
 
     def validate(self, **kwargs):
+        yield from super().validate(**kwargs)
 
         self.need(16)
 

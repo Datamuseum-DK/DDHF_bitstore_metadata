@@ -31,8 +31,8 @@
    -------------
 '''
 
-from ddhf_bitstore_metadata.internals.syntax import MetadataLine
-from ddhf_bitstore_metadata.internals.exceptions import MetadataSemanticError
+from ..internals.syntax import MetadataLine
+from ..internals.exceptions import MetadataSemanticError
 
 class Field():
     ''' A field in a metadata section '''
@@ -76,7 +76,7 @@ class Field():
                     yield self.complaint("Trailing white space", i)
             yield from self.validate(**kwargs)
 
-    def validate(self, **kwargs):
+    def validate(self, **_kwargs):
         ''' By default validation passes '''
         return
         yield self
@@ -102,7 +102,7 @@ class Field():
             return
         yield self.full_name + ":"
         if isinstance(self.val, list):
-            for i in self.val: 
+            for i in self.val:
                 yield "\t" + i
         else:
             yield "\t" + str(self.val)
@@ -118,7 +118,7 @@ class EnumField(Field):
         self.legal_values = legal_values
 
     def validate(self, **kwargs):
-        yield from super().validate()
+        yield from super().validate(**kwargs)
         for line in self.stanza:
             if line.text[1:] not in self.legal_values:
                 yield self.complaint("Illegal value (%s)" % line.text[1:], where=line)

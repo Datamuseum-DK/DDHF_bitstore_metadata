@@ -35,7 +35,7 @@
 import os
 import hashlib
 
-from ddhf_bitstore_metadata.internals.fileformatclass import FileFormat, FileFormatError
+from ..internals.fileformatclass import FileFormat, FileFormatError
 
 def validate_bagit_txt(lines, vfilename, *_args):
     ''' ... '''
@@ -78,6 +78,7 @@ class BagIt(FileFormat):
     EXTENSION = "zip"
 
     def validate(self, cache_bagit_manifest=False, **kwargs):
+        yield from super().validate(**kwargs)
         try:
             self.mdi.artifact.open_bagit()
         except Exception as err:
