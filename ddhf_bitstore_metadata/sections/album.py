@@ -142,6 +142,7 @@ class Album(Section):
         self += fields.Field("Title", mandatory=True)
         self += AlbumDate("Date")
         self += AlbumDescriptionField("Description", single=False)
+        self += fields.Field("Photographer", single=False)
         self.acceptable_formats(
             'BAGIT',
         )
