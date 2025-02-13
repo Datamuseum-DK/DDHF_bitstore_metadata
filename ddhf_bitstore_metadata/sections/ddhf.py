@@ -130,6 +130,7 @@ KEYWORDS = {
     "COMPANY/LEC": "",
     "COMPANY/LFU": "",
     "COMPANY/LINK_DATA": "",
+    "COMPANY/LOGIC_DESIGN": "",
     "COMPANY/MABUSE_DATA": "",
     "COMPANY/METANIC": "",
     "COMPANY/MIAC": "",
