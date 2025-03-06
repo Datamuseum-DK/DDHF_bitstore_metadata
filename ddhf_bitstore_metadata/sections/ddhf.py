@@ -119,6 +119,7 @@ KEYWORDS = {
     "COMPANY/IBM/SYSTEM3": "",
     "COMPANY/ICL/COMET": "",
     "COMPANY/ICL/COMET/TAPE": "",
+    "COMPANY/INTERGRAPH": "Intergraph/Clipper CPU",
     "COMPANY/INTEL/ISIS": "Intel ISIS udviklingssystem",
     "COMPANY/JDC": "",
     "COMPANY/JDC/Q1": "",
