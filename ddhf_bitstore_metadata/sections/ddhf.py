@@ -367,6 +367,7 @@ KEYWORDS = {
     "RC/RC3500/DOCS": "",
     "RC/RC3500/HW": "",
     "RC/RC3500/TAPE": "",
+    "RC/RC3500/TEST": "",
     "RC/RC3600": "",
     "RC/RC3600/COMAL": "",
     "RC/RC3600/DE2": "",
