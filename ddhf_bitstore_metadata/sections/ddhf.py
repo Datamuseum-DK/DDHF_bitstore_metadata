@@ -57,6 +57,7 @@ KEYWORDS = {
     "COMPANY/AMSTRAD/CPC": "",
     "COMPANY/ANJA_DATA": "",
     "COMPANY/APPLE/II": "",
+    "COMPANY/ASNÆSVÆRKET": "",
     "COMPANY/ATARI/ST": "",
     "COMPANY/ATP": "",
     "COMPANY/AT_T": "",
@@ -422,6 +423,7 @@ KEYWORDS = {
     "RC/RC850/SW": "",
     "RC/RC890": "",
     "RC/RC900": "",
+    "RC/RC970": "",
     "RC/RC9000": "",
     "RC/RC9000/DISK": "",
     "RC/RC9000/TAPE": "",
@@ -507,6 +509,16 @@ class GenstandField(Field):
         if not self.sect.has_keyword("ARTIFACTS"):
             yield self.complaint('DDHF.Keywords lack "ARTIFACTS"')
 
+class QRField(Field):
+    ''' Reference to QR sticker '''
+
+    def validate(self, **kwargs):
+        yield from super().validate(**kwargs)
+        if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
+            yield self.complaint('Not a valid identifier')
+        elif self.val[0] != '5':
+            yield self.complaint('Not a valid QR number')
+
 class PresentationField(Field):
     ''' Instructions for presentation facilities '''
 
@@ -526,6 +538,7 @@ class DDHF(Section):
     def build(self):
         self += KeywordField("Keyword", KEYWORDS, single=False, mandatory=True)
         self += GenstandField("Genstand")
+        self += QRField("QR")
         self += Field("Provenance", single=False)
         self += PresentationField("Presentation", single=False)
 

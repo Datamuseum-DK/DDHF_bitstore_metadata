@@ -51,6 +51,7 @@ LEGAL_MEDIA_TYPES = {
     'Integrated Circuit',
     'LTO cartridge magtape',
     'Mini-Cassette',
+    'ESDI Disk',
     'SCSI Disk',
     'ST506 Disk',
     '¼" cartridge magtape',
