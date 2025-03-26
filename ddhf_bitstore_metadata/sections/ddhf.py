@@ -425,6 +425,7 @@ KEYWORDS = {
     "RC/RC850/SW": "",
     "RC/RC890": "",
     "RC/RC900": "",
+    "RC/RC950": "",
     "RC/RC970": "",
     "RC/RC9000": "",
     "RC/RC9000/DISK": "",
