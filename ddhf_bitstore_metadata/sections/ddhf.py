@@ -479,7 +479,7 @@ if __name__ == "__main__":
 
 def genkw():
     ''' Generated keywords '''
-    for year in range(1958, 2025):
+    for year in range(1958, 2026):
         KEYWORDS["EVENT/%4d" % year] = "Events in %d" % year
 
     for i in rcsl.RCSLS:
