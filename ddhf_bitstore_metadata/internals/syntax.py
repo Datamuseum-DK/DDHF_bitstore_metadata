@@ -158,9 +158,7 @@ class MetadataSyntax():
     def __init__(self, text):
         self.cursor = 0
         self.lines = [MetadataLine(num + 1, text) for num, text in enumerate(text.split("\n"))]
-        self.stanzas = []
-        for stanza in self.lexer():
-            self.stanzas.append(MetadataStanza(stanza))
+        self.stanzas = [MetadataStanza(x) for x in self.lexer()]
 
     def __iter__(self):
         yield from self.stanzas
@@ -184,7 +182,6 @@ class MetadataSyntax():
 
         self.lines.pop(-1)
 
-        retval = []
         while True:
 
             line = self.get_line()
@@ -212,5 +209,4 @@ class MetadataSyntax():
                 if line.text == "*END*":
                     line.complain("Missing blank line before *END*")
                 stanza_lines.append(line)
-            retval.append(stanza_lines)
-        return retval
+            yield stanza_lines

@@ -220,6 +220,7 @@ KEYWORDS = {
     "DDE/IPC-1": "",
     "DDE/MARKETING": "",
     "DDE/KURSUS": "",
+    "DDE/NTC2": "",
     "DDE/SPC-1": "",
     "DDE/SUPERMAX": "",
     "DDE/SUPERMAX/DISK": "",
