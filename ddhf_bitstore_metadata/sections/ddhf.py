@@ -117,6 +117,7 @@ KEYWORDS = {
     "COMPANY/IBM/3740": "",
     "COMPANY/IBM/OS2": "",
     "COMPANY/IBM/SYSTEM3": "",
+    "COMPANY/ICL": "",
     "COMPANY/ICL/COMET": "",
     "COMPANY/ICL/COMET/TAPE": "",
     "COMPANY/INTEL/ISIS": "Intel ISIS udviklingssystem",
