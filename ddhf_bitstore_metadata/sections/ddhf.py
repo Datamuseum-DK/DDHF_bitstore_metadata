@@ -204,6 +204,7 @@ KEYWORDS = {
     "CR/CR8": "",
     "CR/CR16": "",
     "CR/CR80/DOCS": "",
+    "CR/CR80/HW": "",
     "CR/CR80/SW": "",
     "CR/CR90": "",
     "CR/FIKS": "",
