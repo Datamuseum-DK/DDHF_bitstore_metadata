@@ -85,23 +85,23 @@ class GeometryEntry():
         for i in self.input:
             d = self.dims.get(i[-1])
             if d is None:
-                raise GeometryException("Dimension '%s' unknown" % i[-1])
+                raise GeometryException("Dimension '%s' unknown (in '%s')" % (i[-1], arg))
             j = i[:-1].split('…')
             if len(j) == 1:
                 try:
                     x = int(j[0])
                 except Exception as err:
-                    raise GeometryException("Cannot grok number '%s'" % j[0]) from err
+                    raise GeometryException("Cannot grok number '%s' (in '%s')" % (j[0], arg)) from err
                 self.dims[i[-1]] = (d[0], d[0] + x - 1)
             else:
                 try:
                     x = int(j[0])
                 except Exception as err:
-                    raise GeometryException("Cannot grok number '%s'" % j[0]) from err
+                    raise GeometryException("Cannot grok number '%s' (in '%s')" % (j[0], arg)) from err
                 try:
                     y = int(j[1])
                 except Exception as err:
-                    raise GeometryException("Cannot grok number '%s'" % j[1]) from err
+                    raise GeometryException("Cannot grok number '%s' (in '%s')" % (j[1], arg)) from err
                 self.dims[i[-1]] = (x, y)
 
     def __repr__(self):
@@ -178,27 +178,30 @@ class Geometry(Field):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.geom = None
+        self.geom = []
 
     def validate(self, **kwargs):
         yield from super().validate(**kwargs)
 
-        try:
-            self.geom = ParseGeometry(self.val)
-        except GeometryException as err:
-            yield self.complaint("Geometry: " + err.args[0])
-            return
-        hds = set(x.dims['h'] for x in self.geom.parts)
-        if len(hds) > 1:
-            yield self.complaint(
-                "Geometry had multiple head-counts (use ranges instead)"
-            )
+        self.geom = []
+        for line in self.val:
+            try:
+                self.geom.append(ParseGeometry(line))
+            except GeometryException as err:
+                yield self.complaint("Geometry: " + err.args[0])
+                return
+            hds = set(x.dims['h'] for x in self.geom[-1].parts)
+            if len(hds) > 1:
+                yield self.complaint(
+                    "Geometry had multiple head-counts (use ranges instead)"
+                )
         bitstore_size = self.sect.metadata.BitStore.Size.val
         if bitstore_size is not None:
             bsz = int(bitstore_size)
-            if len(self.geom) != bsz:
+            gsz = sum(len(x) for x in self.geom)
+            if gsz != bsz:
                 yield self.complaint(
-                    "Geometry (%d) disagrees with Bitstore.Size (%d)" % (len(self.geom), bsz)
+                    "Geometry (%d) disagrees with Bitstore.Size (%d)" % (gsz, bsz)
                 )
 
 class Media(Section):
@@ -208,7 +211,7 @@ class Media(Section):
 
     def build(self):
         self += Field("Summary", mandatory=True)
-        self += Geometry("Geometry")
+        self += Geometry("Geometry", single=False)
         self += rcsl.RCSLField()
         self += EnumField(
             "Type",
