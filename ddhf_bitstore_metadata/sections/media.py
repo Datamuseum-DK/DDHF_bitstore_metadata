@@ -91,17 +91,23 @@ class GeometryEntry():
                 try:
                     x = int(j[0])
                 except Exception as err:
-                    raise GeometryException("Cannot grok number '%s' (in '%s')" % (j[0], arg)) from err
+                    raise GeometryException(
+                        "Cannot grok number '%s' (in '%s')" % (j[0], arg)
+                    ) from err
                 self.dims[i[-1]] = (d[0], d[0] + x - 1)
             else:
                 try:
                     x = int(j[0])
                 except Exception as err:
-                    raise GeometryException("Cannot grok number '%s' (in '%s')" % (j[0], arg)) from err
+                    raise GeometryException(
+                        "Cannot grok number '%s' (in '%s')" % (j[0], arg)
+                    ) from err
                 try:
                     y = int(j[1])
                 except Exception as err:
-                    raise GeometryException("Cannot grok number '%s' (in '%s')" % (j[1], arg)) from err
+                    raise GeometryException(
+                        "Cannot grok number '%s' (in '%s')" % (j[1], arg)
+                    ) from err
                 self.dims[i[-1]] = (x, y)
 
     def __repr__(self):
@@ -123,15 +129,16 @@ class ParseGeometry():
     ''' Parse a Geometry line '''
 
     def __init__(self, arg, tolerant=False):
-        next_cyl = 0
         self.parts = []
-        j = [i.strip() for i in arg.split(',')]
-        if tolerant and j[0] == "1c 1h 16s 128b" and j[1] == "1c 1h 16s 256b":
-            j[0] = "0…0c 0…0h 16s 128b"
-            j[1] = "0…0c 1…1h 16s 256b"
-        for i in j:
-            self.parts.append(GeometryEntry(i, next_cyl))
-            next_cyl = self.parts[-1].dims['c'][1] + 1
+        for line in arg:
+            next_cyl = 0
+            j = [i.strip() for i in line.split(',')]
+            if tolerant and j[0] == "1c 1h 16s 128b" and j[1] == "1c 1h 16s 256b":
+                j[0] = "0…0c 0…0h 16s 128b"
+                j[1] = "0…0c 1…1h 16s 256b"
+            for i in j:
+                self.parts.append(GeometryEntry(i, next_cyl))
+                next_cyl = self.parts[-1].dims['c'][1] + 1
 
     def __repr__(self):
         return ", ".join(str(x) for x in self.parts)
