@@ -94,7 +94,7 @@ class Filename(Field):
 
     def validate(self, **kwargs):
         yield from super().validate(**kwargs)
-        if not re.match('^[a-zæøåA-ZÆØÅ0-9_][a-zæøåA-ZÆØÅ0-9_.-]*$', self.val):
+        if not re.match('^[a-zæøåäöA-ZÆØÅÄÖ0-9_][a-zæøåäöA-ZÆØÅÄÖ0-9_.-]*$', self.val):
             yield self.complaint('Bad filename (illegal characters)')
 
 class Ident(Field):

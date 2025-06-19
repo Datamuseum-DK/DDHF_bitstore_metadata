@@ -130,6 +130,8 @@ class ParseGeometry():
 
     def __init__(self, arg, tolerant=False):
         self.parts = []
+        if isinstance(arg, str):
+            arg = [arg]
         for line in arg:
             next_cyl = 0
             j = [i.strip() for i in line.split(',')]
