@@ -54,6 +54,7 @@ KEYWORDS = {
     "COMAL/RC3600": "",
     "COMAL/RC700": "",
     "COMAL/Z80": "",
+    "COMPANY/AF": "",
     "COMPANY/AMBRASOFT": "",
     "COMPANY/AMSTRAD/CPC": "",
     "COMPANY/ANJA_DATA": "",
