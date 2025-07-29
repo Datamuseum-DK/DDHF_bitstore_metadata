@@ -36,7 +36,6 @@ import time
 
 from ..internals import fields
 from ..internals.section import Section
-from ..internals.exceptions import MetadataError
 
 class AlbumDescriptionField(fields.Field):
     ''' ... '''
@@ -47,6 +46,7 @@ class AlbumDescriptionField(fields.Field):
 
     def iterate_image_descriptions(self):
         ''' Iterate over image filenames and the image descriptions '''
+        assert False # out of order
         desc = []
         for line in reversed(self.stanza):
             if line.text[-1] != ':':
@@ -63,80 +63,79 @@ class AlbumDescriptionField(fields.Field):
                     yield filename, desc
                 desc = []
 
-    def iterate_image_line(self, line, audit=False):
-        ''' Iterate over the filenames in a single line '''
+    def process_image_line(self, line):
         assert line.text[-1] == ':'
         key = line.text[:-1].split()
         if len(key) == 1:
-            yield key[0]
+            if self.images is None:
+                return
+            state = self.images.get(key[0], None)
+            if state is None:
+                yield self.complaint("No image '%s' in bagit file" % key[0], line)
+                return
+            if state:
+                yield self.complaint("Image '%s' described more than once" % key[0], line)
+                return
+            self.images[key[0]] = True
             return
         if key[1] != '-':
-            if audit:
-                yield self.complaint("Syntax error in range of images", line)
+            yield self.complaint("No '-' in image range", line)
             return
         if len(key[0]) != len(key[2]):
-            if audit:
-                yield self.complaint("Different length filenames in range of images", line)
+            yield self.complaint("Image names have different length ", line)
             return
         if key[0] == key[2]:
-            if audit:
-                yield self.complaint("Identical filenames in range of images", line)
+            yield self.complaint("Identical image names ", line)
             return
-
-        start = key[0].rsplit(".", 1)
-        end = key[2].rsplit(".", 1)
-        if start[-1] != end[-1]:
-            if audit:
-                yield self.complaint("Different filetypes in range of images", line)
+        if key[0] > key[2]:
+            yield self.complaint("Images names are in wrong order", line)
             return
-
-        pfxlen = 0
-        for i, j in zip(start[0], end[0]):
-            if i != j:
-                break
-            pfxlen += 1
-
-        pfx = start[0][:pfxlen]
-        fmt = "%0" + "%dd" % (len(start[0]) - pfxlen)
-        try:
-            low = int(start[0][pfxlen:], 10)
-            high = int(end[0][pfxlen:], 10) + 1
-        except ValueError:
-            if audit:
-                yield self.complaint("Non-decimal tail of filenames range of images", line)
+        if self.images is None:
             return
-        for i in range(low, high):
-            imgnm = pfx + fmt % i + "." + start[-1]
-            yield imgnm
+        iterate = True
+        if key[0] not in self.images:
+            yield self.complaint("No image '%s' in bagit file" %  key[0], line)
+            iterate = False
+        if key[2] not in self.images:
+            yield self.complaint("No image '%s' in bagit file" %  key[2], line)
+            iterate = False
+        if not iterate:
+            return
+        x = list(self.images.keys())
+        while x[0] < key[0]:
+            x.pop(0)
+        while x[-1] > key[2]:
+            x.pop(-1)
+        for y in x:
+            if self.images[y]:
+                yield self.complaint("Image '%s' described more than once" % y, line)
+            else:
+                self.images[y] = True
 
     def validate(self, **kwargs):
         yield from super().validate(**kwargs)
-        if not self.images:
-            for line in self.stanza:
-                if line.text[-1] == ':':
-                    for key in self.iterate_image_line(line, audit=True):
-                        if isinstance(key, MetadataError):
-                            yield key
-                        elif key in self.images:
-                            yield self.complaint("Image '%s' listed multiple times" % key, line)
-                        else:
-                            self.images[key] = line
+
         if self.sect.metadata.artifact:
-            found = set()
-            for i in self.sect.metadata.artifact.bagit_contents():
-                if i in self.images:
-                    found.add(i)
-                else:
-                    yield self.complaint("Image '%s' missing in metadata list" % i, self.stanza[-1])
-            n = 0
-            for key, line in self.images.items():
-                if key not in found:
-                    n += 1
-                    if n < 5:
-                        yield self.complaint("Image '%s' missing in BAGIT file" % key, line)
-                    else:
-                        yield self.complaint("…more image missing in BAGIT file", line)
-                        break
+            self.images = dict(
+                (x, False) for x in sorted(self.sect.metadata.artifact.bagit_contents())
+            )
+        else:
+            self.images = None
+
+        for line in self.stanza:
+            if line.text[-1] == ':':
+                yield from self.process_image_line(line)
+        bad = [[]]
+        for nm, st in self.images.items():
+            if not st:
+                bad[-1].append(nm)
+            elif len(bad[-1]) > 0:
+                bad.append([])
+        for rg in bad:
+            if len(rg) == 1:
+                yield self.complaint("Image '%s' not described" % rg[0])
+            elif len(rg) >= 1:
+                yield self.complaint("Images '%s' - '%s' not described" % (rg[0], rg[-1]))
 
     def descriptions(self):
         ''' Iterate (image_filename, description) '''
