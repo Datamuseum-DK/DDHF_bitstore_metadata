@@ -567,7 +567,7 @@ class DDHF(Section):
     def build(self):
         self += KeywordField("Keyword", KEYWORDS, single=False, mandatory=True)
         self += GenstandField("Genstand")
-        self += QRField("QR")
+        self += QRField("QR", single=False)
         self += Field("Provenance", single=False)
         self += PresentationField("Presentation", single=False)
 
