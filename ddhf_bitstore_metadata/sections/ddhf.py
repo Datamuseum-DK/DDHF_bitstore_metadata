@@ -543,10 +543,11 @@ class QRField(Field):
 
     def validate(self, **kwargs):
         yield from super().validate(**kwargs)
-        if not self.val.isascii() or not self.val.isdigit() or len(self.val) != 8:
-            yield self.complaint('Not a valid identifier')
-        elif self.val[0] != '5':
-            yield self.complaint('Not a valid QR number')
+        for qr in self.val:
+            if not qr.isascii() or not qr.isdigit() or len(qr) != 8:
+                yield self.complaint('Not a valid identifier')
+            elif qr[0] != '5':
+                yield self.complaint('Not a valid QR number')
 
 class PresentationField(Field):
     ''' Instructions for presentation facilities '''
