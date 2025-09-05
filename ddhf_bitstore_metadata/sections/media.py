@@ -57,6 +57,7 @@ LEGAL_MEDIA_TYPES = {
     '¼" cartridge magtape',
     '½" Magnetic Tape',
     '⅛" cartridge magtape',
+    'Compact Disc',
 }
 
 LEGAL_MEDIA_FORMATS = (
@@ -67,6 +68,7 @@ LEGAL_MEDIA_FORMATS = (
     'BINARY',
     'GIERTEXT',
     'IMAGEDISK',
+    'ISO9660',
     'KRYOFLUX',
     'SIMH-TAP',
     'TAR',

@@ -58,6 +58,10 @@ class Binary(FileFormat):
     ''' ... '''
     EXTENSION = "bin"
 
+class Iso(FileFormat):
+    ''' ... '''
+    EXTENSION = "iso"
+
 class JPG(FileFormat):
     ''' ... '''
     EXTENSION = "jpg"
@@ -97,6 +101,7 @@ class Fileformats():
         'BINARY': Binary,
         'GIERTEXT': GierText,
         'IMAGEDISK': ImageDisk,
+        'ISO9660': Iso,
         'JPG': JPG,
         'KRYOFLUX': KryoFlux,
         'MP4': MP4,

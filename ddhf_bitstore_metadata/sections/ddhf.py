@@ -237,6 +237,7 @@ KEYWORDS = {
     "DDE/KURSUS": "",
     "DDE/MARKETING": "",
     "DDE/NTC2": "",
+    "DDE/PC": "",
     "DDE/PRESSCOVERAGE": "",
     "DDE/SPC-1": "",
     "DDE/SUPERMAX": "",
