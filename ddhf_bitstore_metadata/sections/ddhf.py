@@ -240,6 +240,7 @@ KEYWORDS = {
     "DDE/PC": "",
     "DDE/PRESSCOVERAGE": "",
     "DDE/SPC-1": "",
+    "DDE/SPC-1/SW": "",
     "DDE/SUPERMAX": "",
     "DDE/SUPERMAX/DISK": "",
     "DDE/SUPERMAX/DOCS": "",
