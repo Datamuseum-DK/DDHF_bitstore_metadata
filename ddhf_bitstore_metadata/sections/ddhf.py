@@ -58,6 +58,7 @@ KEYWORDS = {
     "COMPANY/AMBRASOFT": "",
     "COMPANY/AMSTRAD/CPC": "",
     "COMPANY/ANJA_DATA": "",
+    "COMPANY/ANSYS": "",
     "COMPANY/APPLE/II": "",
     "COMPANY/ASNÆSVÆRKET": "",
     "COMPANY/ATARI/ST": "",
