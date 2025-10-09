@@ -139,6 +139,7 @@ KEYWORDS = {
     "COMPANY/KEC": "",
     "COMPANY/KTAS": "",
     "COMPANY/KVIK_DATA": "",
+    "COMPANY/LASAT": "",
     "COMPANY/LAMBDA/8300": "",
     "COMPANY/LEAR_SIEGLER": "",
     "COMPANY/LEC": "",
