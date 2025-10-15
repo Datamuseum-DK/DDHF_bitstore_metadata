@@ -43,6 +43,7 @@ LEGAL_MEDIA_TYPES = {
     '5¼" Floppy Disk',
     '8" Floppy Disk',
     '8-hole paper tape',
+    'Punched Cards',
     '8mm "Exabyte" magtape',
     'ATA Disk',
     'CDC Disc Pack',
@@ -58,6 +59,7 @@ LEGAL_MEDIA_TYPES = {
     '½" Magnetic Tape',
     '⅛" cartridge magtape',
     'Compact Disc',
+    '¼" Audio tape',
 }
 
 LEGAL_MEDIA_FORMATS = (
