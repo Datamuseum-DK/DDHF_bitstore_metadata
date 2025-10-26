@@ -73,6 +73,7 @@ LEGAL_MEDIA_FORMATS = (
     'ISO9660',
     'KRYOFLUX',
     'SIMH-TAP',
+    'SIMH-CRD',
     'TAR',
     'WAV',
 )
