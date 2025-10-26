@@ -36,6 +36,7 @@ from ..internals.fileformatclass import FileFormat
 
 from ..formats.imagedisk import ImageDisk
 from ..formats.bagit import BagIt
+from ..formats.simh_crd import SimhCrd
 from ..formats.wav import Wav
 
 class Ascii(FileFormat):
@@ -99,6 +100,7 @@ class Fileformats():
         'ASCII_ODD': AsciiOdd,
         'BAGIT': BagIt,
         'BINARY': Binary,
+        'SIMH-CRD': SimhCrd,
         'GIERTEXT': GierText,
         'IMAGEDISK': ImageDisk,
         'ISO9660': Iso,
