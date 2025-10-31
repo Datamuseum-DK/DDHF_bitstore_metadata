@@ -453,6 +453,7 @@ KEYWORDS = {
     "RC/RC8000": "",
     "RC/RC8000/DISK": "",
     "RC/RC8000/HW": "",
+    "RC/RC8000/MOSAIK": "",
     "RC/RC8000/OU-BIBLIOTEK": "",
     "RC/RC8000/PAPERTAPE": "",
     "RC/RC8000/SALG": "",

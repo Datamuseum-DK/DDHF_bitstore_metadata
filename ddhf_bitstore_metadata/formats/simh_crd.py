@@ -47,4 +47,4 @@ class SimhCrd(FileFormat):
         for r in range(0, len(self.octets), 160):
             for c in range(0, 160, 2):
                 if self.octets[r + c] & 0xf:
-                    yield FileFormatError("Unused bits are not zer")
+                    yield FileFormatError("Unused bits are not zero")
