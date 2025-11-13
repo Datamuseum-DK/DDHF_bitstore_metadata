@@ -478,6 +478,7 @@ KEYWORDS = {
     "RC/RCNET": "",
     "RC/RCTELEDATA": "",
     "RC/RC_DISKETTE_1100": "",
+    "RC/REGNSKABER": "",
     "RC/SERVICECENTRENE": "",
     "SCIENCE/ASTRONOMY": "",
     "SCIENCE/CHEMISTRY": "",
