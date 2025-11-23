@@ -196,6 +196,7 @@ KEYWORDS = {
     "COMPANY/SCANGRAPHIC": "",
     "COMPANY/SDC": "",
     "COMPANY/SGI/DISK": "",
+    "COMPANY/SHARP": "",
     "COMPANY/SILVERROCK": "",
     "COMPANY/SINCLAIR": "",
     "COMPANY/SOEKRIS": "",
