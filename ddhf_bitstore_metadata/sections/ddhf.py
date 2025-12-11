@@ -215,6 +215,7 @@ KEYWORDS = {
     "COMPANY/VEGA_DATA": "",
     "COMPANY/VESTKRAFT": "",
     "COMPANY/VP": "",
+    "COMPANY/WANG": "",
     "COMPANY/ZILOG": "",
     "COMPANY/ÅLBORG_UNI": "",
     "COMPANY/ØK_DATA": "",
