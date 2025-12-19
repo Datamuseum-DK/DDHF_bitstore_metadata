@@ -217,6 +217,7 @@ KEYWORDS = {
     "COMPANY/VESTKRAFT": "",
     "COMPANY/VP": "",
     "COMPANY/WANG": "",
+    "COMPANY/WANG/APC": "",
     "COMPANY/ZILOG": "",
     "COMPANY/ÅLBORG_UNI": "",
     "COMPANY/ØK_DATA": "",
