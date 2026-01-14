@@ -452,6 +452,7 @@ KEYWORDS = {
     "RC/RC4000/TAPE": "",
     "RC/RC4000/TEST": "",
     "RC/RC45": "",
+    "RC/RC480": "",
     "RC/RC5000": "",
     "RC/RC6000": "",
     "RC/RC6000/DISK": "",
