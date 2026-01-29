@@ -126,6 +126,7 @@ KEYWORDS = {
     "COMPANY/IBM/3340": "",
     "COMPANY/IBM/3410": "",
     "COMPANY/IBM/3740": "",
+    "COMPANY/IBM/9370": "",
     "COMPANY/IBM/AS400": "",
     "COMPANY/IBM/OS2": "",
     "COMPANY/IBM/SYSTEM3": "",
