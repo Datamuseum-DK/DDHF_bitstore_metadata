@@ -133,6 +133,7 @@ KEYWORDS = {
     "COMPANY/ICL": "",
     "COMPANY/ICL/COMET": "",
     "COMPANY/ICL/COMET/TAPE": "",
+    "COMPANY/ICL/COMET/DISK": "",
     "COMPANY/INSTRUTEK": "",
     "COMPANY/INTERGRAPH": "Intergraph/Clipper CPU",
     "COMPANY/INTEL/ISIS": "Intel ISIS udviklingssystem",
