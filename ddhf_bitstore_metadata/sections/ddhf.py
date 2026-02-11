@@ -119,6 +119,7 @@ KEYWORDS = {
     "COMPANY/HERA-DATA": "",
     "COMPANY/HP/120": "",
     "COMPANY/HP/150": "",
+    "COMPANY/HP/9000": "",
     "COMPANY/HS_MØLLER": "",
     "COMPANY/HT": "",
     "COMPANY/IBM": "",
