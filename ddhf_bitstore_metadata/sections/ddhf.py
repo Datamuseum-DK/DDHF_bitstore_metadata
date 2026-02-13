@@ -130,6 +130,7 @@ KEYWORDS = {
     "COMPANY/IBM/9370": "",
     "COMPANY/IBM/AS400": "",
     "COMPANY/IBM/OS2": "",
+    "COMPANY/IBM/P370": "",
     "COMPANY/IBM/SYSTEM3": "",
     "COMPANY/ICL": "",
     "COMPANY/ICL/COMET": "",
