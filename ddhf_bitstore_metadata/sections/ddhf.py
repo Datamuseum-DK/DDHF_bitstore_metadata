@@ -142,6 +142,7 @@ KEYWORDS = {
     "COMPANY/JDC": "",
     "COMPANY/JTAS": "",
     "COMPANY/JYSKE_BANK": "",
+    "COMPANY/KAYPRO": "",
     "COMPANY/KEC": "",
     "COMPANY/KTAS": "",
     "COMPANY/KVIK_DATA": "",
