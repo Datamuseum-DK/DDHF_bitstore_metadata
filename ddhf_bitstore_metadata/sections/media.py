@@ -60,6 +60,7 @@ LEGAL_MEDIA_TYPES = {
     '⅛" cartridge magtape',
     'Compact Disc',
     '¼" Audio tape',
+    '130mm Magneto-Optical Disc',
 }
 
 LEGAL_MEDIA_FORMATS = (
