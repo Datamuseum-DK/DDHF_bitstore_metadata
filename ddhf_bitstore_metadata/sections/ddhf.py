@@ -353,6 +353,7 @@ KEYWORDS = {
     "OS/MS-DOS": "",
     "OS/MS-DOS/DRIVERS": "",
     "OS/UNIFLEX": "",
+    "OS/UNIX/COHERENT": "",
     "OS/UNIX/TRAINING": "",
     "OS/VERSADOS": "",
     "OS/XDOS": "",
