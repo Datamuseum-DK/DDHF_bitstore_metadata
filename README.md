@@ -1,3 +1,5 @@
+NB: This repository has moved to: https://codeberg.org/Datamuseum-dk/DDHF_bitstore_metadata
+
 This python package implements validation of Datamuseum.dk Bitstore Metadata files
 
 Install as you prefer to install your python packages.
